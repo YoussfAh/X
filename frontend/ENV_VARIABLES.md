@@ -3,7 +3,7 @@
 ## ⚠️ MAJOR UPDATE - App Branding & Naming System
 
 **All app naming and branding is now managed through a centralized configuration system** instead of environment variables or database settings. This provides better performance, consistency, and easier maintenance.
-
+//
 ## Frontend Environment Variables
 
 | Variable | Description | Default | Status |
