@@ -3,7 +3,7 @@
 ## 🚀 What Changed?
 
 Your app now loads **INSTANTLY** with zero loading spinners, no API calls for settings, and no image loading delays!
-
+//
 ### Before vs Aftergg
 
 **BEFORE (API-Based):**
