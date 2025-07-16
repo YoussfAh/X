@@ -4,7 +4,7 @@
 
 Your app now loads **INSTANTLY** with zero loading spinners, no API calls for settings, and no image loading delays!
 
-### Before vs After
+### Before vs Aftergg
 
 **BEFORE (API-Based):**
 - ❌ API calls for every setting
@@ -12,7 +12,7 @@ Your app now loads **INSTANTLY** with zero loading spinners, no API calls for se
 - ❌ Images loaded from URLs with delays
 - ❌ Flashing of old data before new data loads
 - ❌ Null reference errors during loading
-- ❌ 2-3 seconds to fully load
+- ❌ 2-3 seconds to fully load//
 
 **AFTER (Static Configuration):**
 - ✅ All settings built into the app

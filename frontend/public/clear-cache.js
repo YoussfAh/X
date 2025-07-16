@@ -12,6 +12,7 @@
       if (!essentialKeys.includes(key)) {
         keysToRemove.push(key);
       }
+      //
     }
     
     keysToRemove.forEach(key => {
