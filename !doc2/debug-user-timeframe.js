@@ -1,7 +1,7 @@
 // Debug script to check user time frame and fix quiz assignment issue
 import mongoose from 'mongoose';
-import User from './backend/models/userModel.js';
-import Quiz from './backend/models/quizModel.js';
+import User from '../backend/models/userModel.js';
+import Quiz from '../backend/models/quizModel.js';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: './backend/.env' });

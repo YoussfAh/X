@@ -39,7 +39,7 @@ async function testSplashScreen() {
             };
             
             // Import and test the splash screen function
-            const { updatePWASplashScreen } = await import('./frontend/src/utils/pwaUtils.js');
+            const { updatePWASplashScreen } = await import('../frontend/src/utils/pwaUtils.js');
             updatePWASplashScreen(testSettings);
             
             // Check if meta tags were added
