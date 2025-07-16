@@ -1,0 +1,575 @@
+/* Global responsive scaling styles */
+
+/* CSS Variables for responsive scaling */
+:root {
+  --app-scale: 1;
+  --header-height-small: 50px; /* Reduced from 60px */
+  --hero-height-small: 280px; /* Reduced from 350px */
+  --hero-height-medium: 320px; /* Reduced from 400px */
+  --hero-height-large: 450px; /* Reduced from 550px */
+}
+
+/* Apply scaling for small screens */
+@media (max-width: 576px) {
+  :root {
+    --app-scale: 0.8; /* Reduced scale from 0.85 */
+  }
+}
+
+/* Apply even smaller scaling for very small screens */
+@media (max-width: 380px) {
+  :root {
+    --app-scale: 0.7; /* Reduced scale from 0.75 */
+  }
+}
+
+/* Apply ultra-compact scaling for tiny screens */
+@media (max-width: 320px) {
+  :root {
+    --app-scale: 0.65; /* Further reduced from 0.7 */
+  }
+}
+
+/* Fix for modal scrolling with scaled UI */
+body.modal-open {
+  overflow: hidden !important;
+}
+
+/* Apply global scaling for all elements */
+body {
+  font-size: calc(0.85rem * var(--app-scale)); /* Smaller base font size */
+}
+
+/* Make sure scrollbars don't cause layout shift when scaling */
+html {
+  overflow-y: scroll;
+}
+
+/* Handle fixed elements and z-index properly with scaling */
+.fixed-top, .fixed-bottom, .sticky-top {
+  z-index: 1030;
+}
+
+/* Make sure toast notifications appear above everything else */
+.Toastify__toast-container {
+  z-index: 9999 !important;
+}
+
+/* Toast size adjustment for smaller screens */
+@media (max-width: 480px) {
+  .Toastify__toast {
+    margin-bottom: 0.3rem !important; /* Reduced from 0.5rem */
+    padding: 6px 10px !important; /* Reduced from 8px 12px */
+  }
+  
+  .Toastify__toast-body {
+    font-size: calc(0.75rem * var(--app-scale)) !important; /* Reduced from 0.8rem */
+  }
+}
+
+/* Specific styles for header to ensure visibility on small screens */
+@media (max-width: 480px) {
+  /* Header specific adjustments */
+  .elegant-header .navbar {
+    padding: 0.3rem 0.6rem !important; /* Reduced from 0.4rem 0.8rem */
+    height: var(--header-height-small) !important;
+  }
+  
+  .brand-logo img {
+    height: 20px !important; /* Reduced from 24px */
+  }
+  
+  .brand-text {
+    font-size: 1rem !important; /* Reduced from 1.1rem */
+  }
+  
+  /* Nav elements */
+  .nav-link {
+    padding: 0.2rem 0.4rem !important; /* Reduced from 0.3rem 0.5rem */
+    font-size: calc(0.85rem * var(--app-scale)) !important; /* Reduced from 0.9rem */
+  }
+  
+  /* Hero section specific adjustments */
+  [style*="heroSectionStyle"], 
+  [style*="container"] {
+    height: var(--hero-height-small) !important;
+    min-height: auto !important; /* Override min-height to be automatic */
+    margin-bottom: 1rem !important; /* Reduced margin */
+  }
+  
+  .visual-content {
+    min-height: 280px !important; /* Reduced from 400px */
+  }
+  
+  /* Stats circle size reduction */
+  .stats-circle {
+    width: 220px !important; /* Reduced from likely 300px+ */
+    height: 220px !important;
+    padding: 1rem !important;
+  }
+  
+  .progress-ring {
+    width: 150px !important; /* Reduced from likely 200px */
+    height: 150px !important;
+  }
+  
+  /* Floating cards reduction */
+  .floating-card {
+    min-width: 120px !important; /* Reduced minimum width */
+    padding: 0.8rem !important;
+  }
+  
+  /* Collection card adjustments */
+  .collection-card {
+    margin-bottom: 0.6rem !important; /* Reduced from 0.8rem */
+  }
+  
+  .collection-card img {
+    height: 120px !important; /* Reduced from 150px */
+  }
+  
+  /* Section headers */
+  h1[style*="headerStyle"], h2[style*="headerStyle"] {
+    font-size: 1.4rem !important; /* Reduced from 1.6rem */
+    margin-bottom: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  /* Hero title and subtitle */
+  h1[style*="title"] {
+    font-size: 1.8rem !important;
+    margin-bottom: 0.7rem !important;
+  }
+  
+  p[style*="subtitle"] {
+    font-size: 0.9rem !important;
+    margin-bottom: 1rem !important; /* Reduced from likely 2rem */
+  }
+  
+  /* Motivational quote */
+  div[style*="motivationalQuote"] {
+    padding: 0.5rem 0.8rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Feature items */
+  .feature-item {
+    margin-bottom: 0.5rem !important;
+    padding: 0.5rem !important;
+  }
+  
+  .feature-item svg, 
+  .feature-item .fa, 
+  .feature-item [class*="fa-"] {
+    font-size: 16px !important; /* Reduced icon size */
+  }
+  
+  /* Action buttons */
+  .action-buttons {
+    margin-top: 1rem !important;
+  }
+  
+  .primary-button, 
+  .tertiary-button, 
+  .secondary-button {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  /* Adjust spacing */
+  .mb-4 {
+    margin-bottom: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  .mb-5 {
+    margin-bottom: 1rem !important; /* Reduced from 1.2rem */
+  }
+  
+  .py-3 {
+    padding-top: 0.5rem !important; /* Reduced from 0.6rem */
+    padding-bottom: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  /* Adjust spacing inside cards */
+  .card-body {
+    padding: 0.6rem !important; /* Reduced from 0.8rem */
+  }
+  
+  /* Form controls */
+  .form-control {
+    padding: 0.3rem 0.5rem !important; /* Reduced from 0.4rem 0.6rem */
+    font-size: calc(0.85rem * var(--app-scale)) !important; /* Reduced from 0.9rem */
+    height: calc(35px * var(--app-scale)) !important; /* Reduced height */
+  }
+  
+  /* Form labels */
+  .form-label {
+    margin-bottom: 0.2rem !important; /* Reduced from 0.3rem */
+    font-size: calc(0.85rem * var(--app-scale)) !important; /* Reduced from 0.9rem */
+  }
+  
+  /* Input groups */
+  .input-group-text {
+    padding: 0.3rem 0.5rem !important; /* Reduced from 0.4rem 0.6rem */
+  }
+  
+  /* Adjust list group items */
+  .list-group-item {
+    padding: 0.5rem 0.7rem !important; /* Reduced from 0.6rem 0.8rem */
+  }
+  
+  /* Override container padding */
+  .container, .container-fluid {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+
+/* Media queries for fine-tuning specific elements on small screens */
+@media (max-width: 768px) {
+  /* Adjust font sizes for better readability on scaled UI */
+  h1 {
+    font-size: calc(1.4rem * var(--app-scale)); /* Reduced from 1.6rem */
+  }
+  
+  h2 {
+    font-size: calc(1.2rem * var(--app-scale)); /* Reduced from 1.4rem */
+  }
+  
+  h3 {
+    font-size: calc(1.1rem * var(--app-scale)); /* Reduced from 1.2rem */
+  }
+  
+  h4, h5, h6 {
+    font-size: calc(1rem * var(--app-scale)); /* Reduced from 1.1rem */
+  }
+  
+  .card-title {
+    font-size: calc(0.95rem * var(--app-scale)); /* Reduced from 1rem */
+  }
+  
+  p, span, div {
+    font-size: calc(0.85rem * var(--app-scale)); /* Reduced from 0.9rem */
+  }
+  
+  /* Adjust paddings/margins to save space */
+  .py-3 {
+    padding-top: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+    padding-bottom: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .px-3 {
+    padding-left: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+    padding-right: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .p-3 {
+    padding: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .my-3 {
+    margin-top: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+    margin-bottom: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .mx-3 {
+    margin-left: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+    margin-right: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .m-3 {
+    margin: calc(0.6rem * var(--app-scale)) !important; /* Reduced from 0.7rem */
+  }
+  
+  .container, .container-fluid {
+    padding-left: calc(0.6rem * var(--app-scale)); /* Reduced from 0.75rem */
+    padding-right: calc(0.6rem * var(--app-scale)); /* Reduced from 0.75rem */
+    max-width: 100%;
+  }
+  
+  /* Make buttons easier to tap on small screens but not too big */
+  .btn {
+    padding: calc(0.35rem * var(--app-scale)) calc(0.6rem * var(--app-scale)); /* Reduced from 0.4rem 0.7rem */
+    font-size: calc(0.85rem * var(--app-scale)); /* Reduced from 0.9rem */
+  }
+  
+  .btn-sm {
+    padding: calc(0.2rem * var(--app-scale)) calc(0.35rem * var(--app-scale)); /* Reduced from 0.2rem 0.4rem */
+    font-size: calc(0.75rem * var(--app-scale)); /* Reduced from 0.8rem */
+  }
+  
+  /* Hero section */
+  [style*="heroSectionStyle"] {
+    height: var(--hero-height-medium) !important;
+    margin-bottom: 15px !important; /* Reduced from 20px */
+  }
+  
+  [style*="heroOverlayStyle"] h1 {
+    font-size: calc(1.7rem * var(--app-scale)) !important; /* Reduced from 2rem */
+    margin-bottom: 6px !important; /* Reduced from 8px */
+  }
+  
+  [style*="heroOverlayStyle"] p {
+    font-size: calc(0.85rem * var(--app-scale)) !important; /* Reduced from 0.9rem */
+  }
+  
+  /* Ensure form controls are usable */
+  .form-control {
+    height: calc(35px * var(--app-scale)); /* Reduced from 40px */
+  }
+  
+  /* Scale card heights and paddings */
+  .collection-card img {
+    height: calc(160px * var(--app-scale)); /* Reduced from 180px */
+  }
+  
+  /* Adjust spacing between grid items */
+  .row {
+    margin-left: -5px !important; /* Reduced from -6px */
+    margin-right: -5px !important; /* Reduced from -6px */
+  }
+  
+  .row > .col, .row > [class*="col-"] {
+    padding-left: 5px !important; /* Reduced from 6px */
+    padding-right: 5px !important; /* Reduced from 6px */
+  }
+  
+  /* Icons adjustment */
+  .fa, .fas, .far, .fal, .fab, svg[class*="fa-"] {
+    font-size: calc(0.9em * var(--app-scale)); /* Reduced from 1em */
+  }
+  
+  /* Tables */
+  .table th, .table td {
+    padding: calc(0.4rem * var(--app-scale)) !important; /* Reduced from 0.5rem */
+    font-size: calc(0.85rem * var(--app-scale)); /* Reduced from 0.9rem */
+  }
+}
+
+/* Very small screens (under 375px) */
+@media (max-width: 375px) {
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn-group > .btn {
+    margin-bottom: 0.3rem; /* Reduced from 0.4rem */
+  }
+  
+  /* Further reduce hero section height */
+  [style*="heroSectionStyle"] {
+    height: calc(var(--hero-height-small) * 0.9) !important; /* Reduced by 10% */
+    margin-bottom: 12px !important; /* Reduced from 15px */
+  }
+  
+  [style*="heroOverlayStyle"] h1 {
+    font-size: calc(1.4rem * var(--app-scale)) !important; /* Reduced from 1.6rem */
+  }
+  
+  [style*="heroOverlayStyle"] p {
+    font-size: calc(0.8rem * var(--app-scale)) !important; /* Reduced from 0.85rem */
+  }
+  
+  /* Make modal content smaller */
+  .modal-content {
+    padding: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  .modal-header {
+    padding: 0.5rem 0.6rem !important; /* Reduced from 0.6rem 0.8rem */
+  }
+  
+  .modal-body {
+    padding: 0.5rem 0.6rem !important; /* Reduced from 0.6rem 0.8rem */
+  }
+  
+  .modal-footer {
+    padding: 0.5rem 0.6rem !important; /* Reduced from 0.6rem 0.8rem */
+  }
+  
+  /* Offcanvas adjustments */
+  .offcanvas-header {
+    padding: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  .offcanvas-body {
+    padding: 0.5rem !important; /* Reduced from 0.6rem */
+  }
+  
+  /* Adjust dropdown menus */
+  .dropdown-menu {
+    padding: 0.3rem !important; /* Reduced from 0.4rem */
+    min-width: auto !important;
+  }
+  
+  .dropdown-item {
+    padding: 0.3rem 0.5rem !important; /* Reduced from 0.4rem 0.6rem */
+    font-size: calc(0.8rem * var(--app-scale)) !important; /* Reduced from 0.85rem */
+  }
+  
+  /* Stack inline elements for better mobile display */
+  .d-inline-block {
+    margin-bottom: 0.2rem; /* Reduced from 0.3rem */
+  }
+}
+
+/* Ultra small screens (under 320px) */
+@media (max-width: 320px) {
+  :root {
+    --app-scale: 0.6; /* Extremely reduced scale, from 0.7 */
+  }
+  
+  /* Further compress spacing */
+  .container, .container-fluid {
+    padding-left: 0.3rem !important; /* Reduced from 0.4rem */
+    padding-right: 0.3rem !important; /* Reduced from 0.4rem */
+  }
+  
+  /* Ensure buttons are still usable but smaller */
+  .btn {
+    padding: 0.25rem 0.4rem !important; /* Reduced from 0.3rem 0.5rem */
+    font-size: 0.75rem !important; /* Reduced from 0.8rem */
+  }
+  
+  /* Make cards very compact */
+  .card-body {
+    padding: 0.4rem !important; /* Reduced from 0.5rem */
+  }
+  
+  /* Smaller headings */
+  h1 {
+    font-size: 1.3rem !important; /* Reduced from 1.4rem */
+  }
+  
+  h2 {
+    font-size: 1.1rem !important; /* Reduced from 1.2rem */
+  }
+  
+  /* Force single column layout in most cases */
+  .row .col-6, .row .col-4, .row .col-3 {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* Make hero section even smaller */
+  [style*="heroSectionStyle"], 
+  .visual-content,
+  div[style*="container"] {
+    height: calc(var(--hero-height-small) * 0.85) !important; /* Reduced hero height by 15% */
+    min-height: auto !important;
+  }
+  
+  /* Extremely compact stats & floating cards */
+  .stats-circle {
+    width: 180px !important;
+    height: 180px !important;
+    padding: 0.8rem !important;
+  }
+  
+  .progress-ring {
+    width: 130px !important;
+    height: 130px !important;
+  }
+  
+  .floating-card {
+    min-width: 100px !important;
+    padding: 0.6rem !important;
+  }
+}
+
+/* Premium content styling optimizations for mobile */
+.premium-content-border {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Mobile optimizations for premium content */
+@media (max-width: 768px) {
+  .premium-content-border {
+    padding: 16px 12px 14px 12px !important;  /* Slightly reduced bottom padding */
+    margin: 0 -8px;  /* Expand slightly beyond container for better readability */
+    width: calc(100% + 16px);  /* Compensate for negative margins */
+  }
+}
+
+/* Even more compact for very small screens */
+@media (max-width: 380px) {
+  .premium-content-border {
+    padding: 14px 10px 12px 10px !important;  /* Further reduced padding */
+    margin: 0 -6px;  /* Smaller negative margin */
+    width: calc(100% + 12px);  /* Adjusted width */
+  }
+  
+  /* Improve text readability on dark and light modes */
+  [data-theme="dark"] .premium-content-border {
+    background-color: rgba(28, 30, 44, 0.7) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3) !important;
+  }
+  
+  [data-theme="light"] .premium-content-border {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08) !important;
+  }
+}
+
+/* Fixed Header Responsive Adjustments */
+@media (max-width: 768px) {
+  /* Adjust main content padding for smaller screens */
+  main {
+    padding-top: 70px !important;
+  }
+  
+  /* Keep header height consistent */
+  header > div {
+    height: 70px !important;
+  }
+  
+  /* Header brand sizing */
+  .navbar-brand span {
+    font-size: 1.4rem !important;
+  }
+  
+  /* Hamburger menu adjustments */
+  .nav-dropdown-toggle {
+    width: 48px !important;
+    height: 48px !important;
+    padding: 12px !important;
+  }
+  
+  /* Dropdown menu adjustments */
+  .dropdown-menu {
+    width: 280px !important;
+    max-width: 90vw !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Keep consistent header height on mobile */
+  main {
+    padding-top: 70px !important;
+  }
+  
+  header > div {
+    height: 70px !important;
+  }
+  
+  .navbar-brand span {
+    font-size: 1.3rem !important;
+  }
+  
+  /* Dropdown menu width adjustment */
+  .dropdown-menu {
+    width: 260px !important;
+    max-width: 85vw !important;
+    left: auto !important;
+    right: 0 !important;
+  }
+}
+
+/* Ensure dropdown doesn't go off-screen */
+@media (max-width: 320px) {
+  .dropdown-menu {
+    width: calc(100vw - 30px) !important;
+    max-width: 250px !important;
+  }
+}

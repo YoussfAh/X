@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-G PWA Final Verification Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .pass { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .fail { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #0056b3; }
+        .icon-test {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .icon-preview {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Pro-G PWA Final Verification Test</h1>
+    
+    <div class="test-card">
+        <h2>📱 PWA Manifest and Icon Tests</h2>
+        <div id="manifestTests"></div>
+        <button class="btn" onclick="runManifestTests()">Test Manifest & Icons</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 Installation Tests</h2>
+        <div id="installTests"></div>
+        <button class="btn" onclick="runInstallTests()">Test PWA Installation</button>
+        <button class="btn" onclick="triggerInstallPrompt()">Trigger Install Prompt</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🌐 Service Worker Tests</h2>
+        <div id="swTests"></div>
+        <button class="btn" onclick="runServiceWorkerTests()">Test Service Worker</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🖼️ Icon Display Test</h2>
+        <div class="icon-test">
+            <img class="icon-preview" src="/favicon.ico" alt="Favicon" onerror="this.style.display='none'">
+            <span>Default PWA Icon (favicon.ico)</span>
+        </div>
+        <div id="iconTests"></div>
+        <button class="btn" onclick="runIconTests()">Test All Icons</button>
+    </div>
+
+    <script>
+        // Test Results Helper
+        function addResult(containerId, message, type = 'pass') {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = message;
+            container.appendChild(div);
+        }
+
+        function clearResults(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+
+        // Manifest Tests
+        async function runManifestTests() {
+            clearResults('manifestTests');
+            
+            try {
+                // Test manifest fetch
+                const manifestResponse = await fetch('/manifest.json');
+                if (manifestResponse.ok) {
+                    const manifest = await manifestResponse.json();
+                    addResult('manifestTests', '✅ Manifest.json successfully loaded');
+                    
+                    // Test manifest content
+                    if (manifest.name && manifest.short_name) {
+                        addResult('manifestTests', `✅ App names: "${manifest.name}" / "${manifest.short_name}"`);
+                    } else {
+                        addResult('manifestTests', '❌ Missing app names in manifest', 'fail');
+                    }
+                    
+                    // Test icons
+                    if (manifest.icons && manifest.icons.length > 0) {
+                        addResult('manifestTests', `✅ Found ${manifest.icons.length} icon(s) in manifest`);
+                        
+                        // Check if using favicon.ico only
+                        const faviconIcons = manifest.icons.filter(icon => icon.src === 'favicon.ico');
+                        const svgIcons = manifest.icons.filter(icon => icon.src.includes('.svg'));
+                        
+                        if (faviconIcons.length > 0 && svgIcons.length === 0) {
+                            addResult('manifestTests', '✅ Using favicon.ico as PWA icon (no SVG icons)', 'pass');
+                        } else if (svgIcons.length > 0) {
+                            addResult('manifestTests', `⚠️ Found ${svgIcons.length} SVG icon references`, 'warning');
+                        }
+                        
+                        // Test icon accessibility
+                        for (const icon of manifest.icons) {
+                            try {
+                                const iconResponse = await fetch(icon.src);
+                                if (iconResponse.ok) {
+                                    addResult('manifestTests', `✅ Icon accessible: ${icon.src} (${icon.sizes})`);
+                                } else {
+                                    addResult('manifestTests', `❌ Icon not accessible: ${icon.src}`, 'fail');
+                                }
+                            } catch (e) {
+                                addResult('manifestTests', `❌ Error testing icon: ${icon.src}`, 'fail');
+                            }
+                        }
+                    } else {
+                        addResult('manifestTests', '❌ No icons found in manifest', 'fail');
+                    }
+                    
+                    // Test other manifest properties
+                    if (manifest.display === 'standalone') {
+                        addResult('manifestTests', '✅ Display mode: standalone');
+                    }
+                    if (manifest.start_url) {
+                        addResult('manifestTests', `✅ Start URL: ${manifest.start_url}`);
+                    }
+                    if (manifest.theme_color) {
+                        addResult('manifestTests', `✅ Theme color: ${manifest.theme_color}`);
+                    }
+                    
+                } else {
+                    addResult('manifestTests', '❌ Failed to load manifest.json', 'fail');
+                }
+            } catch (error) {
+                addResult('manifestTests', `❌ Error loading manifest: ${error.message}`, 'fail');
+            }
+        }
+
+        // Installation Tests
+        async function runInstallTests() {
+            clearResults('installTests');
+            
+            // Check if already installed
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isIOSStandalone = window.navigator.standalone === true;
+            
+            if (isStandalone || isIOSStandalone) {
+                addResult('installTests', '✅ App is currently running as installed PWA');
+            } else {
+                addResult('installTests', '📱 App is running in browser mode');
+            }
+            
+            // Check for beforeinstallprompt support
+            if ('onbeforeinstallprompt' in window) {
+                addResult('installTests', '✅ Browser supports install prompt');
+            } else {
+                addResult('installTests', '⚠️ Browser may not support install prompt', 'warning');
+            }
+            
+            // Check for service worker
+            if ('serviceWorker' in navigator) {
+                addResult('installTests', '✅ Service Worker API supported');
+                
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        addResult('installTests', '✅ Service Worker is registered');
+                        if (registration.active) {
+                            addResult('installTests', '✅ Service Worker is active');
+                        }
+                    } else {
+                        addResult('installTests', '⚠️ Service Worker not yet registered', 'warning');
+                    }
+                } catch (e) {
+                    addResult('installTests', `❌ Service Worker error: ${e.message}`, 'fail');
+                }
+            } else {
+                addResult('installTests', '❌ Service Worker not supported', 'fail');
+            }
+            
+            // Browser-specific install guidance
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.includes('chrome') && !userAgent.includes('edge')) {
+                addResult('installTests', '💡 Chrome: Look for install button in address bar or three-dot menu');
+            } else if (userAgent.includes('firefox')) {
+                addResult('installTests', '💡 Firefox: PWA install may require enabling in about:config');
+            } else if (userAgent.includes('safari')) {
+                addResult('installTests', '💡 Safari: Use "Add to Home Screen" from Share menu');
+            } else if (userAgent.includes('edge')) {
+                addResult('installTests', '💡 Edge: Look for install button in address bar or three-dot menu');
+            }
+        }
+
+        // Service Worker Tests
+        async function runServiceWorkerTests() {
+            clearResults('swTests');
+            
+            if (!('serviceWorker' in navigator)) {
+                addResult('swTests', '❌ Service Worker not supported', 'fail');
+                return;
+            }
+            
+            try {
+                // Check if service worker file exists
+                const swResponse = await fetch('/service-worker.js');
+                if (swResponse.ok) {
+                    addResult('swTests', '✅ Service worker file accessible');
+                } else {
+                    addResult('swTests', '❌ Service worker file not accessible', 'fail');
+                }
+                
+                // Check registration
+                const registration = await navigator.serviceWorker.getRegistration();
+                if (registration) {
+                    addResult('swTests', `✅ Service Worker registered: ${registration.scope}`);
+                    
+                    if (registration.installing) {
+                        addResult('swTests', '🔄 Service Worker installing...');
+                    }
+                    if (registration.waiting) {
+                        addResult('swTests', '⏳ Service Worker waiting...');
+                    }
+                    if (registration.active) {
+                        addResult('swTests', '✅ Service Worker active');
+                    }
+                } else {
+                    addResult('swTests', '⚠️ Service Worker not registered yet', 'warning');
+                }
+                
+            } catch (error) {
+                addResult('swTests', `❌ Service Worker test error: ${error.message}`, 'fail');
+            }
+        }
+
+        // Icon Tests
+        async function runIconTests() {
+            clearResults('iconTests');
+            
+            // Test favicon.ico
+            try {
+                const faviconResponse = await fetch('/favicon.ico');
+                if (faviconResponse.ok) {
+                    const blob = await faviconResponse.blob();
+                    addResult('iconTests', `✅ favicon.ico accessible (${(blob.size / 1024).toFixed(1)}KB)`);
+                } else {
+                    addResult('iconTests', '❌ favicon.ico not accessible', 'fail');
+                }
+            } catch (e) {
+                addResult('iconTests', `❌ Error testing favicon.ico: ${e.message}`, 'fail');
+            }
+            
+            // Test if any SVG icons still exist
+            const svgIcons = ['icon-192.svg', 'icon-512.svg'];
+            for (const svgIcon of svgIcons) {
+                try {
+                    const response = await fetch(`/${svgIcon}`);
+                    if (response.ok) {
+                        addResult('iconTests', `⚠️ SVG icon still exists: ${svgIcon}`, 'warning');
+                    } else {
+                        addResult('iconTests', `✅ SVG icon removed: ${svgIcon}`);
+                    }
+                } catch (e) {
+                    addResult('iconTests', `✅ SVG icon removed: ${svgIcon}`);
+                }
+            }
+        }
+
+        // Trigger Install Prompt
+        function triggerInstallPrompt() {
+            // This would normally use the deferred prompt
+            // For testing, we'll show what would happen
+            if (window.deferredPrompt) {
+                window.deferredPrompt.prompt();
+                window.deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        addResult('installTests', '✅ User accepted install prompt');
+                    } else {
+                        addResult('installTests', '❌ User dismissed install prompt');
+                    }
+                    window.deferredPrompt = null;
+                });
+            } else {
+                addResult('installTests', '⚠️ No install prompt available. Try manual install from browser menu.', 'warning');
+            }
+        }
+
+        // Listen for beforeinstallprompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            window.deferredPrompt = e;
+            addResult('installTests', '✅ Install prompt available!');
+        });
+
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runManifestTests();
+                runInstallTests();
+                runServiceWorkerTests();
+                runIconTests();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

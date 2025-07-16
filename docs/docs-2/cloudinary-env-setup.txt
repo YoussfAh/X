@@ -1,0 +1,17 @@
+CLOUDINARY ENVIRONMENT SETUP
+
+Please add the following variables to your .env file in the backend directory:
+
+CLOUDINARY_API_KEY=964978895875899
+CLOUDINARY_API_SECRET=lLRtD275cAzvJVcJpAeQCaL_nbk
+CLOUDINARY_CLOUD_NAME=dgqwtzgwo
+CLOUDINARY_UPLOAD_PRESET=grindx-upload
+
+These settings ensure:
+1. All Cloudinary configuration is read from environment variables
+2. No hardcoded values exist in the code
+3. You can easily update your Cloudinary settings when deploying to different environments
+4. The system will validate that all required variables are present before attempting uploads
+
+When deploying to production, simply update these values in your production environment
+with the new Cloudinary credentials, and everything will work without code changes. 

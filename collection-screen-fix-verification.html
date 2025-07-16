@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collection Screen Fix Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .test-step {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+        .expected {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .issue {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .status.pass {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .status.fail {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .status.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        .manual-test-steps {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .manual-test-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Collection Screen Fix Verification Test</h1>
+    <p><strong>Date:</strong> <span id="testDate"></span></p>
+    <p><strong>Purpose:</strong> Verify that collection screen issues are resolved</p>
+
+    <div class="test-section">
+        <h2>Test 1: Scroll Position Consistency</h2>
+        <div class="test-step">
+            <strong>Issue:</strong> <span class="issue">Collections scroll down instead of staying at top on revisit</span>
+        </div>
+        <div class="test-step">
+            <strong>Expected:</strong> <span class="expected">Always scroll to top (0,0) when entering collection</span>
+        </div>
+        <div class="manual-test-steps">
+            <strong>Manual Test Steps:</strong>
+            <ol>
+                <li>Log into the app</li>
+                <li>Navigate to Home screen</li>
+                <li>Enter any collection with subcollections</li>
+                <li>Scroll down in the collection</li>
+                <li>Go back to Home</li>
+                <li>Enter the same collection again</li>
+                <li>Verify it scrolls to top, not the previous position</li>
+                <li>Repeat with different collections</li>
+            </ol>
+        </div>
+        <div class="status pending">
+            <strong>Status:</strong> Ready for manual testing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: No Skeleton Loading on Revisit</h2>
+        <div class="test-step">
+            <strong>Issue:</strong> <span class="issue">Shows loading animation even when data is cached</span>
+        </div>
+        <div class="test-step">
+            <strong>Expected:</strong> <span class="expected">Instant loading on revisit with cached data</span>
+        </div>
+        <div class="manual-test-steps">
+            <strong>Manual Test Steps:</strong>
+            <ol>
+                <li>Enter a collection and wait for it to fully load</li>
+                <li>Go back to Home</li>
+                <li>Enter the same collection again</li>
+                <li>Verify no skeleton or loading animation appears</li>
+                <li>Verify content appears instantly</li>
+                <li>Test with both collections with and without subcollections</li>
+            </ol>
+        </div>
+        <div class="status pending">
+            <strong>Status:</strong> Ready for manual testing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: No Unexpected Logouts</h2>
+        <div class="test-step">
+            <strong>Issue:</strong> <span class="issue">User gets logged out unexpectedly when visiting collections</span>
+        </div>
+        <div class="test-step">
+            <strong>Expected:</strong> <span class="expected">Authentication state maintained during navigation</span>
+        </div>
+        <div class="manual-test-steps">
+            <strong>Manual Test Steps:</strong>
+            <ol>
+                <li>Log into the app</li>
+                <li>Navigate between multiple collections rapidly</li>
+                <li>Try accessing collections that require codes</li>
+                <li>Navigate Home → Collection → Home → Different Collection</li>
+                <li>Verify you remain logged in throughout</li>
+                <li>Test on both mobile/PWA and desktop</li>
+            </ol>
+        </div>
+        <div class="status pending">
+            <strong>Status:</strong> Ready for manual testing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Consistent Loading Behavior</h2>
+        <div class="test-step">
+            <strong>Issue:</strong> <span class="issue">Some parts reload while others don't</span>
+        </div>
+        <div class="test-step">
+            <strong>Expected:</strong> <span class="expected">Consistent caching and loading across all collection components</span>
+        </div>
+        <div class="manual-test-steps">
+            <strong>Manual Test Steps:</strong>
+            <ol>
+                <li>Enter a collection with subcollections</li>
+                <li>Navigate to a subcollection</li>
+                <li>Go back to parent collection</li>
+                <li>Verify both header and content load consistently</li>
+                <li>Check that no partial loading occurs</li>
+            </ol>
+        </div>
+        <div class="status pending">
+            <strong>Status:</strong> Ready for manual testing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 5: Mobile/PWA Specific Tests</h2>
+        <div class="test-step">
+            <strong>Focus:</strong> <span class="expected">Ensure robust behavior on mobile devices and PWA</span>
+        </div>
+        <div class="manual-test-steps">
+            <strong>Mobile Test Steps:</strong>
+            <ol>
+                <li>Test on actual mobile device or PWA</li>
+                <li>Verify scroll behavior works on touch devices</li>
+                <li>Test with device rotation</li>
+                <li>Test with network interruptions</li>
+                <li>Verify no authentication issues on mobile</li>
+            </ol>
+        </div>
+        <div class="status pending">
+            <strong>Status:</strong> Ready for manual testing
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Code Changes Summary</h2>
+        <div class="test-step">
+            <strong>Files Modified:</strong>
+            <ul>
+                <li>CollectionScreen.jsx - Enhanced scroll control and caching</li>
+                <li>useCollectionAccess.js - Improved authentication handling</li>
+                <li>apiSlice.js - Better 401 error handling</li>
+                <li>collectionsApiSlice.js - Enhanced caching strategy</li>
+                <li>App.js - Improved session expiration logic</li>
+                <li>scrollManager.js - REMOVED completely</li>
+            </ul>
+        </div>
+        <div class="test-step">
+            <strong>Key Improvements:</strong>
+            <ul>
+                <li>Always scroll to top on collection entry</li>
+                <li>10-minute cache duration for collection data</li>
+                <li>Smart loading states based on cached data</li>
+                <li>Enhanced authentication error handling</li>
+                <li>Removed custom scroll management</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('testDate').textContent = new Date().toLocaleDateString();
+
+        // Function to update test status
+        function updateTestStatus(testNumber, status, notes) {
+            const testSection = document.querySelectorAll('.test-section')[testNumber - 1];
+            const statusDiv = testSection.querySelector('.status');
+            statusDiv.className = `status ${status}`;
+            statusDiv.innerHTML = `<strong>Status:</strong> ${status.toUpperCase()}`;
+            if (notes) {
+                statusDiv.innerHTML += ` - ${notes}`;
+            }
+        }
+
+        // Example usage (uncomment to test):
+        // updateTestStatus(1, 'pass', 'Scroll position always resets to top');
+        // updateTestStatus(2, 'fail', 'Still seeing skeleton loading');
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PWA Install Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+    button { padding: 10px 20px; margin: 5px; }
+    .status { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>PWA Installation Test</h1>
+  
+  <div class="test-section">
+    <h3>Installation Status</h3>
+    <p>Standalone Mode: <span id="standalone-status" class="status">Checking...</span></p>
+    <p>Service Worker: <span id="sw-status" class="status">Checking...</span></p>
+    <p>Manifest: <span id="manifest-status" class="status">Checking...</span></p>
+    <p>Install Prompt: <span id="prompt-status" class="status">Waiting...</span></p>
+  </div>
+  
+  <div class="test-section">
+    <h3>Actions</h3>
+    <button onclick="triggerInstall()">Trigger Install</button>
+    <button onclick="checkPWAReadiness()">Run PWA Check</button>
+    <button onclick="location.href='/'">Go to App</button>
+  </div>
+  
+  <div class="test-section">
+    <h3>Debug Info</h3>
+    <pre id="debug-info"></pre>
+  </div>
+
+  <script>
+    // Check standalone mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isIOSStandalone = window.navigator.standalone === true;
+    document.getElementById('standalone-status').textContent = 
+      isStandalone || isIOSStandalone ? 'YES (Already installed)' : 'NO';
+    
+    // Check service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(regs => {
+        document.getElementById('sw-status').textContent = 
+          regs.length > 0 ? `YES (${regs.length} registered)` : 'NO';
+      });
+    } else {
+      document.getElementById('sw-status').textContent = 'NOT SUPPORTED';
+    }
+    
+    // Check manifest
+    fetch('/manifest.json')
+      .then(r => r.json())
+      .then(m => {
+        document.getElementById('manifest-status').textContent = 'YES';
+      })
+      .catch(() => {
+        document.getElementById('manifest-status').textContent = 'ERROR';
+      });
+    
+    // Listen for install prompt
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('prompt-status').textContent = 'AVAILABLE';
+    });
+    
+    // Trigger install function
+    function triggerInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          console.log('User choice:', choiceResult.outcome);
+          deferredPrompt = null;
+        });
+      } else {
+        alert('Install prompt not available. Try adding to home screen manually.');
+      }
+    }
+    
+    // Debug info
+    const debugInfo = {
+      userAgent: navigator.userAgent,
+      url: location.href,
+      protocol: location.protocol,
+      standalone: isStandalone || isIOSStandalone
+    };
+    document.getElementById('debug-info').textContent = JSON.stringify(debugInfo, null, 2);
+  </script>
+</body>
+</html>

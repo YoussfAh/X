@@ -1,0 +1,295 @@
+/* Auth screens - Login and Register */
+.auth-container {
+  max-width: 500px;
+  margin: 40px auto;
+}
+
+.auth-form-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Light Theme Styles (default) */
+.auth-card {
+  border-radius: 15px;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Common header styles for both themes */
+.auth-header {
+  border-radius: 15px 15px 0 0;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #6e44b2 0%, #8460d0 100%);
+  text-align: center;
+  color: white;
+}
+
+.auth-header h1 {
+  margin-top: 1rem;
+  font-weight: 600;
+  color: white;
+}
+
+.auth-header p {
+  opacity: 0.8;
+  color: white;
+}
+
+.auth-header-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Theme specific styles */
+/* Light Theme */
+[data-theme="light"] .auth-card,
+[data-theme="light"] .auth-body {
+  background-color: white;
+  color: #212529;
+}
+
+[data-theme="light"] .auth-header-icon {
+  background-color: white;
+  color: #6e44b2;
+}
+
+[data-theme="light"] .auth-form .form-control,
+[data-theme="light"] .auth-form .form-select {
+  border: 1px solid #e1e1e1;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+[data-theme="light"] .auth-form .form-label {
+  color: #495057;
+}
+
+[data-theme="light"] .auth-divider {
+  color: #6c757d;
+}
+
+[data-theme="light"] .auth-divider::before,
+[data-theme="light"] .auth-divider::after {
+  border-bottom: 1px solid #e1e1e1;
+}
+
+/* Dark Theme */
+[data-theme="dark"] .auth-card,
+[data-theme="dark"] .auth-body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .auth-header-icon {
+  background-color: #121212;
+  color: #9d71db;
+}
+
+[data-theme="dark"] .auth-form .form-control,
+[data-theme="dark"] .auth-form .form-select {
+  border: 1px solid #333333;
+  background-color: #121212;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .auth-form .form-control:focus,
+[data-theme="dark"] .auth-form .form-select:focus {
+  background-color: #1a1a1a;
+  border-color: #9d71db;
+  box-shadow: 0 0 0 0.25rem rgba(157, 113, 219, 0.25);
+}
+
+[data-theme="dark"] .auth-form .form-label {
+  color: #e0e0e0;
+}
+
+[data-theme="dark"] .auth-form .btn-outline-secondary {
+  color: #e0e0e0;
+  border-color: #424242;
+}
+
+[data-theme="dark"] .auth-link {
+  color: #b28ae2;
+}
+
+[data-theme="dark"] .auth-link:hover {
+  color: #c4b5eb;
+}
+
+[data-theme="dark"] .auth-divider {
+  color: #b0b0b0;
+}
+
+[data-theme="dark"] .auth-divider::before,
+[data-theme="dark"] .auth-divider::after {
+  border-bottom: 1px solid #333333;
+}
+
+[data-theme="dark"] .text-muted {
+  color: #adb5bd !important;
+}
+
+.auth-body {
+  padding: 2rem;
+}
+
+/* Form Controls - Common */
+.auth-form .form-control,
+.auth-form .form-select {
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.auth-form .input-group .btn {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.auth-form .form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+/* Password strength meter */
+.password-strength-meter {
+  margin: 1rem 0;
+}
+
+.password-strength-meter .progress-bar {
+  transition: width 0.5s ease;
+}
+
+.password-requirements {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.auth-form .btn-primary {
+  background: linear-gradient(135deg, #6e44b2 0%, #8460d0 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(110, 68, 178, 0.3);
+  color: white;
+}
+
+.auth-form .btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #5d3a96 0%, #7350c0 100%);
+  box-shadow: 0 7px 20px rgba(110, 68, 178, 0.4);
+  transform: translateY(-2px);
+  color: white;
+}
+
+.auth-form .btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 3px 10px rgba(110, 68, 178, 0.3);
+}
+
+.auth-form .btn-primary:disabled {
+  background: linear-gradient(135deg, #a894d0 0%, #c0b2e0 100%);
+  opacity: 0.7;
+}
+
+.auth-link {
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+}
+
+.auth-divider span {
+  padding: 0 1rem;
+}
+
+/* Fitness profile card */
+.fitness-profile-card {
+  border-radius: 15px;
+  margin-top: 1.5rem;
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-toggle svg {
+  font-size: 1.4rem;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .auth-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .auth-body {
+    padding: 1.5rem;
+  }
+
+  .auth-header-icon {
+    width: 60px;
+    height: 60px;
+  }
+}

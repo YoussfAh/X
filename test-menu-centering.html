@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Centering Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        .test-instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-checklist {
+            list-style-type: none;
+            padding: 0;
+        }
+        .test-checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .test-checklist li:before {
+            content: "☐ ";
+            margin-right: 8px;
+        }
+        .app-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 10px 0;
+        }
+        .app-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            color: white;
+            text-decoration: none;
+        }
+        .device-test {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border-left: 4px solid #4F46E5;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-instructions">
+        <h1>Hamburger Menu Centering & Click-Outside Test</h1>
+        <p>This test will verify that the hamburger menu is properly centered on small screens and that clicking outside the menu closes it without triggering other actions.</p>
+        
+        <a href="http://localhost:3000" class="app-link" target="_blank">Open Pro-G App</a>
+        
+        <h2>Test Checklist</h2>
+        <ul class="test-checklist">
+            <li>Menu centers properly on mobile screens (phone sizes)</li>
+            <li>Menu centers properly on tablet screens</li>
+            <li>Clicking outside the menu closes it</li>
+            <li>First click outside does NOT trigger other elements</li>
+            <li>Backdrop covers entire screen on mobile</li>
+            <li>Menu has subtle backdrop blur effect</li>
+            <li>Clicking on menu items still works normally</li>
+            <li>Escape key closes the menu</li>
+        </ul>
+
+        <h2>Device Testing Instructions</h2>
+        
+        <div class="device-test">
+            <h3>📱 Mobile Phone Test (≤ 480px)</h3>
+            <ol>
+                <li>Resize browser window to ~375px width (iPhone size)</li>
+                <li>Click hamburger menu icon</li>
+                <li>Verify menu appears centered on screen</li>
+                <li>Click anywhere outside the menu</li>
+                <li>Verify menu closes and no other element is activated</li>
+                <li>Try pressing Escape key while menu is open</li>
+            </ol>
+        </div>
+        
+        <div class="device-test">
+            <h3>📱 Tablet Test (481px - 768px)</h3>
+            <ol>
+                <li>Resize browser window to ~600px width (tablet size)</li>
+                <li>Click hamburger menu icon</li>
+                <li>Verify menu appears centered on screen</li>
+                <li>Click outside the menu</li>
+                <li>Verify menu closes properly</li>
+            </ol>
+        </div>
+        
+        <div class="device-test">
+            <h3>💻 Desktop Test (> 768px)</h3>
+            <ol>
+                <li>Use normal desktop window size</li>
+                <li>Click hamburger menu icon</li>
+                <li>Verify menu appears positioned correctly (top-right)</li>
+                <li>Click outside the menu</li>
+                <li>Verify menu closes without affecting other elements</li>
+            </ol>
+        </div>
+
+        <h2>Expected Behavior</h2>
+        <ul>
+            <li><strong>Mobile/Tablet (≤768px):</strong> Menu centered with backdrop</li>
+            <li><strong>Desktop (>768px):</strong> Menu positioned below hamburger icon</li>
+            <li><strong>All sizes:</strong> Click outside closes menu without side effects</li>
+            <li><strong>All sizes:</strong> Smooth animations and transitions</li>
+        </ul>
+
+        <h2>Common Issues to Look For</h2>
+        <ul>
+            <li>Menu not perfectly centered on small screens</li>
+            <li>Clicking outside activates buttons/links behind menu</li>
+            <li>Menu appears off-screen on very small devices</li>
+            <li>Backdrop not covering entire screen</li>
+            <li>Menu content being cut off</li>
+        </ul>
+    </div>
+
+    <script>
+        // Add responsive testing helper
+        function updateScreenInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const type = width <= 480 ? 'Mobile' : width <= 768 ? 'Tablet' : 'Desktop';
+            
+            let info = document.getElementById('screen-info');
+            if (!info) {
+                info = document.createElement('div');
+                info.id = 'screen-info';
+                info.style.cssText = `
+                    position: fixed;
+                    top: 10px;
+                    right: 10px;
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 8px 12px;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    z-index: 9999;
+                `;
+                document.body.appendChild(info);
+            }
+            
+            info.textContent = `${type}: ${width}×${height}px`;
+        }
+        
+        updateScreenInfo();
+        window.addEventListener('resize', updateScreenInfo);
+    </script>
+</body>
+</html>

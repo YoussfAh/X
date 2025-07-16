@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test New User Experience</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .log {
+            background: #f8f9fa;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test New User Experience</h1>
+    <p>This page simulates what a brand new user would see when they visit your app for the first time.</p>
+
+    <div class="test-section">
+        <h3>🚀 Step 1: Clear All Cache (Simulate New User)</h3>
+        <button onclick="clearAllCache()">Clear All Config Cache</button>
+        <p><small>This removes all cached settings to simulate a completely new user.</small></p>
+    </div>
+
+    <div class="test-section">
+        <h3>📡 Step 2: Test API Endpoint</h3>
+        <button onclick="testAPI()">Test API: /api/system-settings/general</button>
+        <div id="api-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>⚙️ Step 3: Test Config Loading</h3>
+        <button onclick="testConfigLoading()">Test Config Loading Process</button>
+        <div id="config-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>🎯 Step 4: Simulate Full New User Journey</h3>
+        <button onclick="simulateNewUser()">Simulate Complete New User Experience</button>
+        <div id="journey-log" class="log"></div>
+    </div>
+
+    <script>
+        function log(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            element.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            element.scrollTop = element.scrollHeight;
+        }
+
+        function clearAllCache() {
+            localStorage.removeItem('STATIC_CONFIG_OVERRIDE');
+            localStorage.removeItem('STATIC_CONFIG_API_CACHE');
+            localStorage.removeItem('LAST_CONFIG_UPDATE');
+            localStorage.removeItem('LAST_STATIC_CONFIG_UPDATE');
+            log('api-log', '🧹 All config cache cleared - you are now a "new user"', 'success');
+        }
+
+        async function testAPI() {
+            log('api-log', '📡 Testing API endpoint: /api/system-settings/general');
+            
+            try {
+                const response = await fetch('http://localhost:5000/api/system-settings/general');
+                log('api-log', `📊 Response Status: ${response.status}`, response.ok ? 'success' : 'error');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log('api-log', `📦 API Data Received:`, 'success');
+                    log('api-log', `   - Site Name: "${data.siteName || 'Not set'}"`, 'info');
+                    log('api-log', `   - Header Image: "${data.headerImage || 'Not set'}"`, 'info');
+                    log('api-log', `   - Color Scheme: ${data.colorScheme ? JSON.stringify(data.colorScheme) : 'Not set'}`, 'info');
+                    log('api-log', `   - Full Data: ${JSON.stringify(data, null, 2)}`, 'info');
+                } else {
+                    log('api-log', `❌ API Error: ${response.status} ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                log('api-log', `❌ Network Error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testConfigLoading() {
+            log('config-log', '⚙️ Testing config loading process...');
+            
+            // Check if we're a new user
+            const hasOverride = localStorage.getItem('STATIC_CONFIG_OVERRIDE');
+            const hasCache = localStorage.getItem('STATIC_CONFIG_API_CACHE');
+            const isNewUser = !hasOverride && !hasCache;
+            
+            log('config-log', `👤 New User Status: ${isNewUser ? 'YES (no cached config)' : 'NO (has cached config)'}`, isNewUser ? 'success' : 'info');
+            log('config-log', `📦 Has Override: ${!!hasOverride}`, 'info');
+            log('config-log', `💾 Has API Cache: ${!!hasCache}`, 'info');
+            
+            if (hasCache) {
+                try {
+                    const cache = JSON.parse(hasCache);
+                    const ageSeconds = (Date.now() - cache.timestamp) / 1000;
+                    log('config-log', `⏰ Cache Age: ${ageSeconds.toFixed(1)} seconds`, 'info');
+                } catch (e) {
+                    log('config-log', '⚠️ Invalid cache data', 'error');
+                }
+            }
+
+            // Test the API call that would happen for a new user
+            if (isNewUser) {
+                log('config-log', '🆕 Simulating new user API call...', 'success');
+                await testAPI();
+            } else {
+                log('config-log', '📋 Using existing cached config (not a new user)', 'info');
+            }
+        }
+
+        async function simulateNewUser() {
+            log('journey-log', '🎯 Starting complete new user simulation...', 'success');
+            
+            // Step 1: Clear all cache
+            clearAllCache();
+            log('journey-log', '✅ Step 1: Cleared all cache', 'success');
+            
+            // Step 2: Test API
+            log('journey-log', '📡 Step 2: Testing API response...');
+            await testAPI();
+            
+            // Step 3: Simulate what the config hook would do
+            log('journey-log', '⚙️ Step 3: Simulating config loading hook behavior...');
+            
+            try {
+                // This simulates what getActiveConfig() does for new users
+                const response = await fetch('http://localhost:5000/api/system-settings/general');
+                if (response.ok) {
+                    const apiData = await response.json();
+                    
+                    // Simulate caching the result
+                    const cachedConfig = {
+                        config: apiData,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem('STATIC_CONFIG_API_CACHE', JSON.stringify(cachedConfig));
+                    
+                    log('journey-log', '💾 API response cached for instant future loads', 'success');
+                    log('journey-log', `✨ New user would see: "${apiData.siteName}"`, 'success');
+                    
+                    if (apiData.headerImage) {
+                        log('journey-log', `🖼️ Header image: ${apiData.headerImage}`, 'success');
+                    }
+                    
+                    if (apiData.colorScheme) {
+                        log('journey-log', `🎨 Color scheme: ${JSON.stringify(apiData.colorScheme)}`, 'success');
+                    }
+                    
+                    log('journey-log', '🎉 SUCCESS: New user would see all admin changes!', 'success');
+                } else {
+                    log('journey-log', '❌ API failed - new user would see default config', 'error');
+                }
+            } catch (error) {
+                log('journey-log', `❌ Error in simulation: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-run the tests when page loads
+        window.addEventListener('load', () => {
+            log('journey-log', '🌐 Page loaded - ready to test new user experience');
+            log('journey-log', '💡 Click "Simulate Complete New User Experience" to run full test');
+        });
+    </script>
+</body>
+</html>

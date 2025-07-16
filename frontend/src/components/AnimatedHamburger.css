@@ -1,0 +1,176 @@
+/* Animated Hamburger Menu Styles */
+.hamburger-menu {
+  position: relative;
+  z-index: 10;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 3px;
+  margin: 3px 0;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center;
+  position: relative;
+}
+
+/* Theme-aware line colors */
+[data-theme='dark'] .hamburger-line {
+  background-color: #ffffff;
+}
+
+[data-theme='light'] .hamburger-line {
+  background-color: #1e293b;
+}
+
+/* Fallback for when theme is not set */
+.hamburger-line {
+  background-color: #1e293b;
+}
+
+/* Closed state (hamburger) */
+.hamburger-menu:not(.open) .hamburger-line {
+  opacity: 1;
+  transform: rotate(0deg) translate(0, 0);
+}
+
+/* Open state (X) */
+.hamburger-menu.open .line1 {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger-menu.open .line2 {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.hamburger-menu.open .line3 {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Hover effects */
+.hamburger-menu:hover .hamburger-line {
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.hamburger-menu.open:hover .line1 {
+  transform: rotate(45deg) translate(6px, 6px) scale(1.05);
+}
+
+.hamburger-menu.open:hover .line3 {
+  transform: rotate(-45deg) translate(6px, -6px) scale(1.05);
+}
+
+/* Remove all borders and outlines from container */
+.hamburger-menu,
+.hamburger-menu:focus,
+.hamburger-menu:active,
+.hamburger-menu:hover {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Smooth color transition for theme changes */
+.hamburger-line {
+  transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hamburger-line {
+    width: 22px;
+    height: 2.5px;
+    margin: 3px 0;
+  }
+  
+  .hamburger-menu.open .line1 {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .hamburger-menu.open .line3 {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+  
+  .hamburger-menu.open:hover .line1 {
+    transform: rotate(45deg) translate(5px, 5px) scale(1.05);
+  }
+
+  .hamburger-menu.open:hover .line3 {
+    transform: rotate(-45deg) translate(5px, -5px) scale(1.05);
+  }
+}
+
+@media (max-width: 480px) {
+  .hamburger-line {
+    width: 20px;
+    height: 2px;
+    margin: 3px 0;
+  }
+  
+  .hamburger-menu.open .line1 {
+    transform: rotate(45deg) translate(4px, 4px);
+  }
+
+  .hamburger-menu.open .line3 {
+    transform: rotate(-45deg) translate(4px, -4px);
+  }
+  
+  .hamburger-menu.open:hover .line1 {
+    transform: rotate(45deg) translate(4px, 4px) scale(1.05);
+  }
+
+  .hamburger-menu.open:hover .line3 {
+    transform: rotate(-45deg) translate(4px, -4px) scale(1.05);
+  }
+}
+
+/* Add a subtle glow effect */
+.hamburger-line {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation keyframes for smooth transitions */
+@keyframes hamburgerToX {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  50% {
+    transform: rotate(0deg) translate(0, 0) scale(0.8);
+  }
+  100% {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+@keyframes hamburgerToXBottom {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  50% {
+    transform: rotate(0deg) translate(0, 0) scale(0.8);
+  }
+  100% {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+}

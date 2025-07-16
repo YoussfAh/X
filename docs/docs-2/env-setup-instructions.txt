@@ -1,0 +1,18 @@
+ENVIRONMENT SETUP INSTRUCTIONS
+
+1. Create a file named ".env" in your backend directory (backend/.env)
+
+2. Add the following lines to the file:
+
+CLOUDINARY_API_KEY=964978895875899
+CLOUDINARY_API_SECRET=lLRtD275cAzvJVcJpAeQCaL_nbk
+CLOUDINARY_CLOUD_NAME=dgqwtzgwo
+
+3. Save the file
+
+4. Restart your server by:
+   - First, find and terminate any running server processes using port 5000
+   - Then start the server with: npm run backend
+
+Note: It's best practice to never commit your .env file to version control.
+The credentials are added as fallbacks in the code, but they should ideally be kept only in the .env file. 

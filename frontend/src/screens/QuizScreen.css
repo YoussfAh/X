@@ -1,0 +1,103 @@
+.quiz-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .quiz-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+  
+  .quiz-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+  }
+  
+  .quiz-card {
+    background-color: rgba(17, 17, 17, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    color: white;
+  }
+  
+  .quiz-option {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .quiz-option:hover {
+    transform: translateY(-2px);
+  }
+  
+  .progress-bar {
+    background-color: #444;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  textarea.form-control {
+    background-color: #333;
+    color: white;
+    border-color: #555;
+  }
+  
+  textarea.form-control::placeholder {
+    color: #aaa;
+  } 
+
+  .quiz-text-input {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 120px;
+    resize: vertical;
+    transition: all 0.3s ease;
+  }
+
+  .quiz-text-input:focus {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25) !important;
+    outline: none;
+  }
+
+  .quiz-text-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  } 

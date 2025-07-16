@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "analyze-containers": "node scripts/apply-full-height-container.js",
+    "migrate-screen": "node scripts/apply-full-height-container.js"
+  }
+}

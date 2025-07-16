@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            margin: 10px;
+        }
+        .generated-icon {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .generated-icon img {
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover { background: #0056b3; }
+        .icon-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Icon Generator from Favicon</h1>
+    
+    <div>
+        <button class="btn" onclick="generateIcons()">Generate PWA Icons from Favicon</button>
+        <button class="btn" onclick="downloadAllIcons()">Download All Icons</button>
+    </div>
+    
+    <div id="preview" class="icon-preview"></div>
+    <div id="downloads"></div>
+
+    <script>
+        let generatedIcons = [];
+
+        async function generateIcons() {
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '<p>Generating icons...</p>';
+            
+            try {
+                // Load the favicon
+                const faviconResponse = await fetch('/favicon.ico');
+                if (!faviconResponse.ok) {
+                    throw new Error('Failed to load favicon.ico');
+                }
+                
+                const faviconBlob = await faviconResponse.blob();
+                const faviconUrl = URL.createObjectURL(faviconBlob);
+                
+                // Create image element
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                
+                img.onload = function() {
+                    // Required PWA icon sizes
+                    const sizes = [
+                        { size: 192, name: 'icon-192.png', desc: 'Android Chrome' },
+                        { size: 512, name: 'icon-512.png', desc: 'Android Chrome (large)' },
+                        { size: 144, name: 'icon-144.png', desc: 'Windows Metro' },
+                        { size: 96, name: 'icon-96.png', desc: 'Android Chrome (small)' },
+                        { size: 72, name: 'icon-72.png', desc: 'Android Chrome (tablet)' },
+                        { size: 48, name: 'icon-48.png', desc: 'Android Chrome (mobile)' },
+                        { size: 180, name: 'icon-180.png', desc: 'iOS Safari' }
+                    ];
+                    
+                    preview.innerHTML = '';
+                    generatedIcons = [];
+                    
+                    sizes.forEach(iconInfo => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = iconInfo.size;
+                        canvas.height = iconInfo.size;
+                        
+                        // Clear with transparent background
+                        ctx.clearRect(0, 0, iconInfo.size, iconInfo.size);
+                        
+                        // Calculate scaling to fit the image while maintaining aspect ratio
+                        const scale = Math.min(iconInfo.size / img.width, iconInfo.size / img.height);
+                        const scaledWidth = img.width * scale;
+                        const scaledHeight = img.height * scale;
+                        
+                        // Center the image
+                        const x = (iconInfo.size - scaledWidth) / 2;
+                        const y = (iconInfo.size - scaledHeight) / 2;
+                        
+                        // Draw the image
+                        ctx.drawImage(img, x, y, scaledWidth, scaledHeight);
+                        
+                        // Convert to data URL
+                        const dataUrl = canvas.toDataURL('image/png');
+                        
+                        // Store for download
+                        generatedIcons.push({
+                            name: iconInfo.name,
+                            dataUrl: dataUrl,
+                            size: iconInfo.size
+                        });
+                        
+                        // Create preview
+                        const iconDiv = document.createElement('div');
+                        iconDiv.className = 'generated-icon';
+                        iconDiv.innerHTML = `
+                            <div><strong>${iconInfo.size}x${iconInfo.size}</strong></div>
+                            <div>${iconInfo.desc}</div>
+                            <img src="${dataUrl}" width="64" height="64" alt="${iconInfo.name}">
+                            <div><button class="btn" onclick="downloadIcon('${iconInfo.name}', '${dataUrl}')">Download</button></div>
+                        `;
+                        preview.appendChild(iconDiv);
+                    });
+                    
+                    generateManifestJson();
+                };
+                
+                img.onerror = function() {
+                    preview.innerHTML = '<p style="color: red;">Error: Could not load favicon.ico</p>';
+                };
+                
+                img.src = faviconUrl;
+                
+            } catch (error) {
+                preview.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+        
+        function downloadIcon(filename, dataUrl) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            link.click();
+        }
+        
+        function downloadAllIcons() {
+            if (generatedIcons.length === 0) {
+                alert('Please generate icons first');
+                return;
+            }
+            
+            generatedIcons.forEach(icon => {
+                setTimeout(() => {
+                    downloadIcon(icon.name, icon.dataUrl);
+                }, 100);
+            });
+        }
+        
+        function generateManifestJson() {
+            const manifest = {
+                "short_name": "Pro-G",
+                "name": "Pro-G Fitness & Nutrition Tracker",
+                "description": "AI-powered fitness tracking with meal image analysis and personalized coaching",
+                "icons": [
+                    {
+                        "src": "favicon.ico",
+                        "sizes": "16x16 24x24 32x32 48x48 64x64",
+                        "type": "image/x-icon",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-48.png",
+                        "sizes": "48x48",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-72.png",
+                        "sizes": "72x72",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-96.png",
+                        "sizes": "96x96",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-144.png",
+                        "sizes": "144x144",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-180.png",
+                        "sizes": "180x180",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-192.png",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-192.png",
+                        "sizes": "192x192",
+                        "type": "image/png",
+                        "purpose": "maskable"
+                    },
+                    {
+                        "src": "icon-512.png",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "any"
+                    },
+                    {
+                        "src": "icon-512.png",
+                        "sizes": "512x512",
+                        "type": "image/png",
+                        "purpose": "maskable"
+                    }
+                ],
+                "start_url": "/?utm_source=pwa",
+                "display": "standalone",
+                "orientation": "portrait-primary",
+                "theme_color": "#4F46E5",
+                "background_color": "#000000",
+                "scope": "/",
+                "categories": ["health", "fitness", "lifestyle"],
+                "lang": "en-US",
+                "dir": "ltr"
+            };
+            
+            const downloadsDiv = document.getElementById('downloads');
+            downloadsDiv.innerHTML = `
+                <h3>Updated manifest.json</h3>
+                <textarea rows="20" cols="80" readonly>${JSON.stringify(manifest, null, 2)}</textarea>
+                <br>
+                <button class="btn" onclick="downloadManifest()">Download manifest.json</button>
+            `;
+            
+            window.generatedManifest = manifest;
+        }
+        
+        function downloadManifest() {
+            const dataStr = JSON.stringify(window.generatedManifest, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'manifest.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

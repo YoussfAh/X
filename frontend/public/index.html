@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#4F46E5" id="theme-color-meta" />
+    <meta name="description" content="Advanced fitness and nutrition tracking application with AI-powered analysis and comprehensive workout management" id="description-meta" />
+
+    <script>
+      // Prevents FOUC (Flash of Unstyled Content) by applying the theme before the page renders
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem('theme') || 'dark';
+          document.documentElement.setAttribute('data-theme', savedTheme);
+        } catch (e) {
+          // If localStorage is unavailable, do nothing
+        }
+      })();
+
+      // Subdomain and Routing Handler
+      (function() {
+        // Function to extract subdomain
+        function extractSubdomain() {
+          const hostname = window.location.hostname;
+          const parts = hostname.split('.');
+          
+          // Vercel deployment: subdomain.grindx.vercel.app
+          if (hostname.includes('vercel.app')) {
+            return parts.length > 2 ? parts[0] : 'grindx';
+          }
+          
+          // Localhost: subdomain.localhost or localhost
+          if (hostname.includes('localhost')) {
+            return parts.length > 1 ? parts[0] : 'grindx';
+          }
+          
+          // Default fallback
+          return 'grindx';
+        }
+
+        // Ensure proper routing for single-page application
+        function handleRouting() {
+          const subdomain = extractSubdomain();
+          
+          // Optional: Log subdomain for debugging
+          console.log('Current Subdomain:', subdomain);
+
+          // You can add additional routing logic here if needed
+          // For example, setting a global variable or dispatching a custom event
+          window.currentTenantSubdomain = subdomain;
+        }
+
+        // Run routing handler on page load
+        handleRouting();
+      })();
+    </script>
+
+    <style>
+      /* Prevents FOUC by applying dark background immediately */
+      html[data-theme='dark'] body {
+        background-color: #000000; /* AMOLED Black */
+      }
+    </style>
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Grindx - Fitness & Nutrition Tracker" id="og-title-meta" />
+    <meta property="og:description" content="Transform your fitness journey with AI-powered nutrition analysis and comprehensive workout tracking" id="og-description-meta" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Grindx" id="og-site-name-meta" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Grindx - Your Fitness Companion" id="twitter-title-meta" />
+    <meta name="twitter:description" content="AI-powered fitness and nutrition tracking app" id="twitter-description-meta" />
+
+    <!-- Manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" id="manifest-link" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" id="status-bar-style-meta" />
+    <meta name="apple-mobile-web-app-title" content="Grindx" id="apple-app-title-meta" />
+    <meta name="application-name" content="Grindx" id="application-name-meta" />
+    <meta name="msapplication-TileColor" content="#7c4dff" />
+    <meta name="msapplication-TileImage" content="%PUBLIC_URL%/icon-144.png" />
+    <meta name="msapplication-config" content="none" />
+    
+    <!-- Enhanced PWA Features -->
+    <meta name="msapplication-starturl" content="/?utm_source=pwa" />
+    <meta name="msapplication-navbutton-color" content="#7c4dff" />
+    <meta name="msapplication-square70x70logo" content="%PUBLIC_URL%/icon-72.png" />
+    <meta name="msapplication-square150x150logo" content="%PUBLIC_URL%/icon-144.png" />
+    <meta name="msapplication-square310x310logo" content="%PUBLIC_URL%/icon-512.png" />
+    
+    <!-- Windows 10/11 PWA Support -->
+    <meta name="msapplication-task" content="name=Dashboard;action-uri=/home;icon-uri=%PUBLIC_URL%/icon-48.png" />
+    <meta name="msapplication-task" content="name=Workout Tracker;action-uri=/workout-dashboard;icon-uri=%PUBLIC_URL%/icon-48.png" />
+    <meta name="msapplication-task" content="name=Diet Tracker;action-uri=/diet-dashboard;icon-uri=%PUBLIC_URL%/icon-48.png" />
+    
+    <!-- Chrome/Edge PWA Features -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Samsung Internet PWA Support -->
+    <meta name="x5-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="x5-page-mode" content="app" />
+    
+    <!-- PWA Icons -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon-180.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/icon-180.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="%PUBLIC_URL%/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="%PUBLIC_URL%/icon-512.png" />
+
+    <!-- Prevent zoom on iOS -->
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <!-- PWA Installation Manager -->
+    <script src="%PUBLIC_URL%/pwa-install-manager.js" defer></script>
+    
+    <!-- PWA Debug Utility (development only) -->
+    <script src="%PUBLIC_URL%/pwa-debug.js" defer></script>
+    
+    <title>Grindx</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+    <script>
+      // Global function to update PWA status bar colors based on theme
+      window.updatePWAStatusBarColors = function(isDark) {
+        const themeColorMeta = document.getElementById('theme-color-meta');
+        const statusBarMeta = document.getElementById('status-bar-style-meta');
+        
+        if (themeColorMeta && statusBarMeta) {
+          if (isDark) {
+            // Dark theme: black background
+            themeColorMeta.setAttribute('content', '#000000');
+            statusBarMeta.setAttribute('content', 'black-translucent');
+          } else {
+            // Light theme: light background  
+            themeColorMeta.setAttribute('content', '#f8fafc');
+            statusBarMeta.setAttribute('content', 'default');
+          }
+        }
+      };
+      
+      // Set theme colors for status bar immediately
+      (function() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const isDark = savedTheme === 'dark';
+        
+        // Update PWA status bar colors
+        window.updatePWAStatusBarColors(isDark);
+
+        // Listen for theme changes and update status bar colors
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-theme') {
+              const currentTheme = document.documentElement.getAttribute('data-theme');
+              window.updatePWAStatusBarColors(currentTheme === 'dark');
+            }
+          });
+        });
+        observer.observe(document.documentElement, { attributes: true });
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Menu Debug & Test Guide</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f8fafc;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .issue {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .fix {
+            background: #dcfce7;
+            border-left: 4px solid #16a34a;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .test-step {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Cascadia Code', 'Fira Code', monospace;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        .debug-section {
+            background: #fef3c7;
+            border: 2px solid #f59e0b;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        h1 { color: #1e293b; }
+        h2 { color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px; }
+        h3 { color: #4b5563; }
+        .emoji { font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Hamburger Menu Debug & Test Guide</h1>
+        
+        <div class="issue">
+            <h3>🚨 Current Issues</h3>
+            <ul>
+                <li><strong>Hamburger Toggle Not Working:</strong> Button click doesn't open/close menu</li>
+                <li><strong>Click-Outside Not Working:</strong> Clicking outside doesn't close menu or blocks other actions</li>
+            </ul>
+        </div>
+
+        <div class="fix">
+            <h3>✅ Applied Fixes</h3>
+            <ul>
+                <li><strong>Simplified Event Handling:</strong> Removed complex event propagation logic</li>
+                <li><strong>Cleaner Click Detection:</strong> Better hamburger button detection</li>
+                <li><strong>Reduced Event Conflicts:</strong> Minimal interference between components</li>
+                <li><strong>Enhanced Debugging:</strong> Added console logs to track behavior</li>
+            </ul>
+        </div>
+
+        <div class="debug-section">
+            <h2>🛠️ Debug Instructions</h2>
+            
+            <h3>Step 1: Load Debug Script</h3>
+            <p>Open the app, then open browser DevTools (F12) and paste this in the Console:</p>
+            <div class="code">
+// Copy the contents of debug-menu-behavior.js
+// OR load it directly:
+fetch('/debug-menu-behavior.js')
+  .then(r => r.text())
+  .then(code => eval(code))
+  .then(() => console.log('🎯 Debug script loaded!'));
+            </div>
+
+            <h3>Step 2: Run Diagnostics</h3>
+            <div class="test-step">
+                <strong>🔍 Check Elements:</strong>
+                <div class="code">debugMenuBehavior()</div>
+                <p>This will verify all menu elements exist and show their current state.</p>
+            </div>
+
+            <div class="test-step">
+                <strong>👀 Monitor Clicks:</strong>
+                <div class="code">monitorClicks()</div>
+                <p>This will log all click events to help identify what's happening.</p>
+            </div>
+
+            <div class="test-step">
+                <strong>🧪 Test Toggle:</strong>
+                <div class="code">testHamburgerToggle()</div>
+                <p>This will manually test the hamburger button toggle.</p>
+            </div>
+        </div>
+
+        <h2>🧪 Manual Testing Steps</h2>
+        
+        <div class="test-step">
+            <h3>Test 1: Hamburger Toggle</h3>
+            <ol>
+                <li>Load the app on mobile view (≤768px width)</li>
+                <li>Look for hamburger button (3 lines) in header</li>
+                <li>Click the hamburger button</li>
+                <li><strong>Expected:</strong> Menu should appear</li>
+                <li>Click hamburger button again</li>
+                <li><strong>Expected:</strong> Menu should close</li>
+            </ol>
+            <p><strong>Debug:</strong> Watch console for "🍔 Hamburger clicked!" and "🎯 Header: Setting expanded to:" messages</p>
+        </div>
+
+        <div class="test-step">
+            <h3>Test 2: Click Outside</h3>
+            <ol>
+                <li>Open the hamburger menu</li>
+                <li>Click anywhere outside the menu (on the page background)</li>
+                <li><strong>Expected:</strong> Menu should close</li>
+                <li><strong>Expected:</strong> No other page elements should be activated</li>
+            </ol>
+            <p><strong>Debug:</strong> Watch console for click detection messages</p>
+        </div>
+
+        <div class="test-step">
+            <h3>Test 3: Menu Items</h3>
+            <ol>
+                <li>Open the hamburger menu</li>
+                <li>Click on any menu item (e.g., "My Profile")</li>
+                <li><strong>Expected:</strong> Should navigate to that page</li>
+                <li><strong>Expected:</strong> Menu should close after navigation</li>
+            </ol>
+        </div>
+
+        <h2>🔍 What to Look For</h2>
+        
+        <div class="test-step">
+            <h3>Console Messages</h3>
+            <ul>
+                <li><code>🍔 Hamburger clicked!</code> - Should appear when clicking hamburger</li>
+                <li><code>🎯 Header: Setting expanded to: true/false</code> - Should show state changes</li>
+                <li><code>📱 Backdrop clicked</code> - Should appear when clicking outside on mobile</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <h3>Visual Indicators</h3>
+            <ul>
+                <li><strong>Hamburger Animation:</strong> Lines should animate when opening/closing</li>
+                <li><strong>Menu Appearance:</strong> Should slide in smoothly</li>
+                <li><strong>Backdrop:</strong> Should appear behind menu on mobile</li>
+                <li><strong>Menu Position:</strong> Should be centered horizontally on mobile</li>
+            </ul>
+        </div>
+
+        <h2>⚡ Quick Fixes to Try</h2>
+        
+        <div class="test-step">
+            <h3>If Hamburger Doesn't Toggle:</h3>
+            <ol>
+                <li>Check if any JavaScript errors in console</li>
+                <li>Verify hamburger button has <code>aria-expanded</code> attribute</li>
+                <li>Try running <code>testHamburgerToggle()</code> in console</li>
+                <li>Check if click events are being registered with <code>monitorClicks()</code></li>
+            </ol>
+        </div>
+
+        <div class="test-step">
+            <h3>If Click-Outside Doesn't Work:</h3>
+            <ol>
+                <li>Check if backdrop element exists (on mobile)</li>
+                <li>Verify click events are being captured</li>
+                <li>Try clicking in different areas outside the menu</li>
+                <li>Check console for event detection messages</li>
+            </ol>
+        </div>
+
+        <div class="debug-section">
+            <h3>🚨 Emergency Reset</h3>
+            <p>If menu gets stuck open, run this in console:</p>
+            <div class="code">
+// Force close menu
+const dropdown = document.querySelector('.modern-navigation-dropdown');
+if (dropdown) {
+  dropdown.classList.remove('show');
+  dropdown.style.visibility = 'hidden';
+  dropdown.style.opacity = '0';
+}
+
+// Remove backdrop
+const backdrop = document.querySelector('.mobile-menu-backdrop');
+if (backdrop) backdrop.remove();
+
+// Reset body scroll
+document.body.style.overflow = '';
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 30px; color: #6b7280;">
+            <strong>Remember:</strong> Use browser DevTools Console (F12) for debugging!
+        </p>
+    </div>
+</body>
+</html>

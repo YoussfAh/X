@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Completion Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background: #1a1a1a; 
+            color: white; 
+        }
+        .test-section { 
+            margin: 20px 0; 
+            padding: 15px; 
+            border: 1px solid #333; 
+            border-radius: 8px; 
+        }
+        button { 
+            padding: 10px 20px; 
+            margin: 5px; 
+            border: none; 
+            border-radius: 5px; 
+            background: #007bff; 
+            color: white; 
+            cursor: pointer; 
+        }
+        button:hover { background: #0056b3; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Quiz Completion Flow Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Instructions:</h3>
+        <ol>
+            <li>Make sure you're logged in to the app</li>
+            <li>Ensure you have an active quiz assigned</li>
+            <li>Complete the quiz to test the completion modal</li>
+            <li>Check that the modal shows the correct completion message</li>
+            <li>Verify navigation goes to home page (/) not profile</li>
+        </ol>
+    </div>
+
+    <div class="test-section">
+        <h3>Expected Behavior:</h3>
+        <ul>
+            <li class="success">✅ After finishing quiz, completion modal should appear</li>
+            <li class="success">✅ Modal should display custom completion message from admin</li>
+            <li class="success">✅ Modal should NOT close automatically or on ESC key</li>
+            <li class="success">✅ Clicking "Go to Home" should navigate to home page (/)</li>
+            <li class="success">✅ Should NOT see "No active quiz available" message</li>
+            <li class="success">✅ Should NOT redirect to profile page</li>
+        </ul>
+    </div>
+
+    <div class="test-section">
+        <h3>API Test Endpoints:</h3>
+        <button onclick="testActiveQuiz()">Test Get Active Quiz</button>
+        <button onclick="testQuizSubmission()">Test Quiz Submission</button>
+        <div id="apiResults" style="margin-top: 10px;"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Frontend Navigation:</h3>
+        <button onclick="goToQuiz()">Go to Quiz Page</button>
+        <button onclick="goToHome()">Go to Home Page</button>
+        <button onclick="goToProfile()">Go to Profile Page</button>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+        
+        async function testActiveQuiz() {
+            try {
+                const response = await fetch(`${API_BASE}/quiz/active-for-user`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('apiResults').innerHTML = `
+                    <div class="success">✅ Active Quiz Response:</div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                document.getElementById('apiResults').innerHTML = `
+                    <div class="error">❌ Error: ${error.message}</div>
+                `;
+            }
+        }
+
+        async function testQuizSubmission() {
+            document.getElementById('apiResults').innerHTML = `
+                <div class="info">ℹ️ Quiz submission should be tested by completing an actual quiz in the app</div>
+            `;
+        }
+
+        function goToQuiz() {
+            window.open('http://localhost:3000/quiz', '_blank');
+        }
+
+        function goToHome() {
+            window.open('http://localhost:3000/', '_blank');
+        }
+
+        function goToProfile() {
+            window.open('http://localhost:3000/profile', '_blank');
+        }
+
+        // Check if we're in the correct environment
+        if (window.location.hostname === 'localhost') {
+            document.body.style.border = '3px solid #28a745';
+            document.body.style.borderRadius = '10px';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Menu Viewport Fix Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .test-step {
+            margin: 10px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .info {
+            border-left-color: #17a2b8;
+            background: #d1ecf1;
+        }
+        
+        .viewport-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🍔 Mobile Menu Viewport Fix Test</h1>
+        <p><strong>Purpose:</strong> Verify that the hamburger menu works properly on mobile browsers when the browser UI is visible.</p>
+        
+        <div class="test-section">
+            <h3>📱 Current Viewport Information</h3>
+            <div class="viewport-info" id="viewportInfo">
+                Loading viewport information...
+            </div>
+            <button class="test-button" onclick="updateViewportInfo()">Refresh Viewport Info</button>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Fix Implementation Status</h3>
+            <div class="test-step success">
+                <strong>✅ Dynamic Height Calculation:</strong> Added visualViewport API support for accurate viewport measurements
+            </div>
+            <div class="test-step success">
+                <strong>✅ CSS Custom Properties:</strong> Implemented --dynamic-max-height variable for mobile menu
+            </div>
+            <div class="test-step success">
+                <strong>✅ Enhanced Mobile Scrolling:</strong> Added -webkit-overflow-scrolling and overscroll-behavior
+            </div>
+            <div class="test-step success">
+                <strong>✅ Cross-Browser Compatibility:</strong> Fallback to window.innerHeight for older browsers
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧪 Manual Testing Steps</h3>
+            <div class="test-step info">
+                <strong>1. Mobile Browser Test:</strong>
+                <ul>
+                    <li>Open the app on a mobile device in a browser (not PWA)</li>
+                    <li>Log in to your account</li>
+                    <li>Open the hamburger menu</li>
+                    <li>Verify you can scroll to all menu items</li>
+                    <li>Test with browser address bar visible and hidden</li>
+                </ul>
+            </div>
+            
+            <div class="test-step info">
+                <strong>2. Orientation Test:</strong>
+                <ul>
+                    <li>Test in both portrait and landscape orientations</li>
+                    <li>Rotate device while menu is open</li>
+                    <li>Verify menu adjusts to new viewport size</li>
+                </ul>
+            </div>
+            
+            <div class="test-step info">
+                <strong>3. Browser UI Test:</strong>
+                <ul>
+                    <li>Scroll down to hide browser UI elements</li>
+                    <li>Open hamburger menu</li>
+                    <li>Verify menu uses full available height</li>
+                    <li>Can scroll to bottom menu items</li>
+                </ul>
+            </div>
+            
+            <div class="test-step warning">
+                <strong>4. Admin User Test:</strong>
+                <ul>
+                    <li>Test with admin account (longer menu)</li>
+                    <li>Verify all admin menu items are accessible</li>
+                    <li>Test admin panel section scrolling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Expected Results</h3>
+            <div class="test-step success">
+                <strong>✅ Full Menu Access:</strong> All menu items should be scrollable and accessible
+            </div>
+            <div class="test-step success">
+                <strong>✅ Smooth Scrolling:</strong> Menu should scroll smoothly on touch devices
+            </div>
+            <div class="test-step success">
+                <strong>✅ Dynamic Height:</strong> Menu height should adapt to browser UI changes
+            </div>
+            <div class="test-step success">
+                <strong>✅ No Regression:</strong> PWA and desktop functionality should remain unchanged
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div id="testResults">
+                <div class="status" style="background: #fff3cd; color: #856404;">
+                    <strong>Status:</strong> Ready for manual testing
+                </div>
+            </div>
+            <button class="test-button" onclick="reportSuccess()">✅ Test Passed</button>
+            <button class="test-button" onclick="reportFailure()">❌ Test Failed</button>
+        </div>
+    </div>
+    
+    <script>
+        function updateViewportInfo() {
+            const info = document.getElementById('viewportInfo');
+            const windowHeight = window.innerHeight;
+            const visualViewportHeight = window.visualViewport ? window.visualViewport.height : 'Not supported';
+            const screenHeight = window.screen.height;
+            const difference = window.visualViewport ? windowHeight - window.visualViewport.height : 'N/A';
+            
+            info.innerHTML = `
+                <div><strong>Window Height:</strong> ${windowHeight}px</div>
+                <div><strong>Visual Viewport Height:</strong> ${visualViewportHeight}px</div>
+                <div><strong>Screen Height:</strong> ${screenHeight}px</div>
+                <div><strong>Browser UI Height:</strong> ${difference}px</div>
+                <div><strong>Visual Viewport Support:</strong> ${window.visualViewport ? '✅ Yes' : '❌ No (fallback active)'}</div>
+                <div><strong>User Agent:</strong> ${navigator.userAgent}</div>
+            `;
+        }
+        
+        function reportSuccess() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = `
+                <div class="status pass">
+                    <strong>Status:</strong> TEST PASSED ✅
+                </div>
+                <div class="test-step success">
+                    <strong>Result:</strong> Mobile hamburger menu works correctly on this device/browser.
+                    All menu items are accessible and scrollable.
+                </div>
+            `;
+        }
+        
+        function reportFailure() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = `
+                <div class="status fail">
+                    <strong>Status:</strong> TEST FAILED ❌
+                </div>
+                <div class="test-step" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <strong>Issue:</strong> Mobile hamburger menu still has scrolling issues.
+                    Please check the browser console for errors and report the issue.
+                </div>
+            `;
+        }
+        
+        // Initialize viewport info
+        updateViewportInfo();
+        
+        // Listen for viewport changes
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', updateViewportInfo);
+        }
+        
+        window.addEventListener('resize', updateViewportInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateViewportInfo, 100);
+        });
+    </script>
+</body>
+</html>

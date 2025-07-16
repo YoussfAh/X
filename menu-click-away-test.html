@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Click-Away Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .test-section h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .test-step {
+            margin: 10px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .success {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .warning {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .info {
+            border-left-color: #17a2b8;
+            background: #d1ecf1;
+        }
+        
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        .test-button:hover {
+            background: #0056b3;
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        
+        .status.pass {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .device-info {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🍔 Menu Click-Away Functionality Test</h1>
+        <p><strong>Purpose:</strong> Verify that the hamburger menu closes when clicking outside of it on all devices.</p>
+        
+        <div class="test-section">
+            <h3>📱 Device Information</h3>
+            <div class="device-info" id="deviceInfo">
+                Loading device information...
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🔧 Enhanced Click-Away Features</h3>
+            <div class="test-step success">
+                <strong>✅ Universal Backdrop:</strong> Works on both mobile and desktop
+            </div>
+            <div class="test-step success">
+                <strong>✅ Smart Detection:</strong> Ignores clicks on hamburger button itself
+            </div>
+            <div class="test-step success">
+                <strong>✅ Touch Support:</strong> Handles both mouse and touch events
+            </div>
+            <div class="test-step success">
+                <strong>✅ Accessibility:</strong> ESC key support maintained
+            </div>
+            <div class="test-step success">
+                <strong>✅ Timing Protection:</strong> Prevents immediate closure after opening
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🧪 Manual Testing Steps</h3>
+            <div class="test-step info">
+                <strong>1. Desktop Click-Away Test:</strong>
+                <ul>
+                    <li>Open the app on desktop/laptop</li>
+                    <li>Click the hamburger menu to open it</li>
+                    <li>Click anywhere outside the menu</li>
+                    <li>Verify the menu closes</li>
+                    <li>Test clicking on header, content area, footer</li>
+                </ul>
+            </div>
+            
+            <div class="test-step info">
+                <strong>2. Mobile Touch Test:</strong>
+                <ul>
+                    <li>Open the app on mobile device</li>
+                    <li>Tap the hamburger menu to open it</li>
+                    <li>Tap anywhere outside the menu</li>
+                    <li>Verify the menu closes smoothly</li>
+                    <li>Test tapping on different areas of the screen</li>
+                </ul>
+            </div>
+            
+            <div class="test-step info">
+                <strong>3. Keyboard Accessibility Test:</strong>
+                <ul>
+                    <li>Open the hamburger menu</li>
+                    <li>Press the ESC key</li>
+                    <li>Verify the menu closes</li>
+                    <li>Test on both desktop and mobile</li>
+                </ul>
+            </div>
+            
+            <div class="test-step warning">
+                <strong>4. Edge Case Test:</strong>
+                <ul>
+                    <li>Click hamburger button to open menu</li>
+                    <li>Click hamburger button again</li>
+                    <li>Verify menu closes (not stuck open)</li>
+                    <li>Test rapid clicking</li>
+                </ul>
+            </div>
+            
+            <div class="test-step info">
+                <strong>5. Backdrop Test:</strong>
+                <ul>
+                    <li>Open menu and look for backdrop overlay</li>
+                    <li>Mobile: Should see subtle dark overlay</li>
+                    <li>Desktop: Should see very subtle overlay</li>
+                    <li>Click on backdrop to close menu</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>🎯 Expected Behavior</h3>
+            <div class="test-step success">
+                <strong>✅ Instant Response:</strong> Menu should close immediately when clicking outside
+            </div>
+            <div class="test-step success">
+                <strong>✅ No Interference:</strong> Menu should stay open when clicking inside it
+            </div>
+            <div class="test-step success">
+                <strong>✅ Button Behavior:</strong> Hamburger button should toggle menu properly
+            </div>
+            <div class="test-step success">
+                <strong>✅ Universal Support:</strong> Works on all devices and input methods
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h3>📊 Test Results</h3>
+            <div id="testResults">
+                <div class="status" style="background: #fff3cd; color: #856404;">
+                    <strong>Status:</strong> Ready for manual testing
+                </div>
+            </div>
+            <button class="test-button" onclick="reportSuccess()">✅ Click-Away Works</button>
+            <button class="test-button" onclick="reportFailure()">❌ Click-Away Issues</button>
+        </div>
+    </div>
+    
+    <script>
+        function updateDeviceInfo() {
+            const info = document.getElementById('deviceInfo');
+            const isMobile = window.innerWidth <= 768;
+            const hasTouch = 'ontouchstart' in window;
+            
+            info.innerHTML = `
+                <div><strong>Screen Width:</strong> ${window.innerWidth}px</div>
+                <div><strong>Screen Height:</strong> ${window.innerHeight}px</div>
+                <div><strong>Device Type:</strong> ${isMobile ? 'Mobile' : 'Desktop'}</div>
+                <div><strong>Touch Support:</strong> ${hasTouch ? '✅ Yes' : '❌ No'}</div>
+                <div><strong>Expected Backdrop:</strong> ${isMobile ? 'Dark overlay' : 'Subtle overlay'}</div>
+                <div><strong>User Agent:</strong> ${navigator.userAgent}</div>
+            `;
+        }
+        
+        function reportSuccess() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = `
+                <div class="status pass">
+                    <strong>Status:</strong> TEST PASSED ✅
+                </div>
+                <div class="test-step success">
+                    <strong>Result:</strong> Click-away functionality works perfectly on this device.
+                    Menu closes when clicking outside and stays open when clicking inside.
+                </div>
+            `;
+        }
+        
+        function reportFailure() {
+            const results = document.getElementById('testResults');
+            results.innerHTML = `
+                <div class="status fail">
+                    <strong>Status:</strong> TEST FAILED ❌
+                </div>
+                <div class="test-step" style="background: #f8d7da; border-left-color: #dc3545;">
+                    <strong>Issue:</strong> Click-away functionality is not working properly.
+                    Please check browser console for errors and report the specific issue.
+                </div>
+            `;
+        }
+        
+        // Initialize device info
+        updateDeviceInfo();
+        
+        // Update on resize
+        window.addEventListener('resize', updateDeviceInfo);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(updateDeviceInfo, 100);
+        });
+    </script>
+</body>
+</html>

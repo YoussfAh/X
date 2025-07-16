@@ -1,0 +1,17 @@
+/* Clean CSS ending for index.css */
+
+/* Tablet specific adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .carousel-section {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1025px) {
+  .carousel-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+}

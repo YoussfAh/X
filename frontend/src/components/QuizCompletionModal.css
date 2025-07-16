@@ -1,0 +1,374 @@
+/* Professional Quiz Completion Modal */
+.quiz-completion-modal .modal-dialog {
+  max-width: 500px;
+  margin: 1rem auto;
+}
+
+/* Fullscreen mode for small devices */
+.quiz-completion-modal.modal-fullscreen-sm-down .modal-content {
+  height: 100vh;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-completion-modal.modal-fullscreen-sm-down .modal-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.quiz-completion-modal.modal-fullscreen-sm-down .completion-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-completion-modal .modal-content {
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.completion-container {
+  padding: 0;
+  text-align: center;
+  position: relative;
+}
+
+/* Professional Header */
+.completion-header {
+  padding: 2rem 1.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.success-indicator {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.success-icon {
+  font-size: 3rem;
+  color: #4ade80;
+  animation: successPulse 1.5s ease-in-out;
+  position: relative;
+  z-index: 2;
+}
+
+.success-ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border: 2px solid #4ade80;
+  border-radius: 50%;
+  animation: rippleEffect 2s ease-out infinite;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes rippleEffect {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+.completion-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: white;
+}
+
+.completion-subtitle {
+  font-size: 1rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 400;
+}
+
+/* Content Section */
+.completion-content {
+  padding: 1.5rem;
+}
+
+.message-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.message-icon {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star-icon {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.completion-message {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Professional Divider */
+.professional-divider {
+  margin: 1.5rem 0;
+}
+
+.divider-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+
+/* Next Steps */
+.next-steps {
+  text-align: left;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.next-steps-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: white;
+  text-align: center;
+}
+
+.next-steps-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.next-steps-list li {
+  padding: 0.5rem 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.next-steps-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #4ade80;
+  font-weight: bold;
+}
+
+/* Action Footer */
+.completion-footer {
+  padding: 1rem 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.continue-btn {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  border: none;
+  border-radius: 12px;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.continue-btn:hover {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+}
+
+.continue-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1rem;
+}
+
+.footer-note {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Mobile Responsive Design - Compact & Fullscreen */
+@media (max-width: 576px) {
+  .quiz-completion-modal .modal-dialog {
+    margin: 0;
+    max-width: none;
+    height: 100vh;
+  }
+  
+  .quiz-completion-modal .modal-content {
+    height: 100vh;
+    border-radius: 0;
+  }
+  
+  .completion-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .completion-header {
+    padding: 1.5rem 1rem 1rem;
+    flex-shrink: 0;
+  }
+  
+  .success-icon {
+    font-size: 2.5rem;
+  }
+  
+  .completion-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .completion-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .completion-content {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .message-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .completion-message {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .next-steps {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .next-steps-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .next-steps-list li {
+    font-size: 0.85rem;
+    padding: 0.25rem 0;
+  }
+  
+  .completion-footer {
+    padding: 1rem;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .continue-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 12px;
+  }
+  
+  .footer-note {
+    font-size: 0.8rem;
+    margin-top: 0.75rem;
+  }
+}
+
+/* Extra Small Screens - Ultra Compact */
+@media (max-width: 380px) {
+  .completion-header {
+    padding: 1rem 0.75rem 0.75rem;
+  }
+  
+  .success-icon {
+    font-size: 2rem;
+  }
+  
+  .completion-title {
+    font-size: 1.25rem;
+  }
+  
+  .completion-content {
+    padding: 0.75rem;
+  }
+  
+  .message-card {
+    padding: 0.75rem;
+  }
+  
+  .next-steps {
+    padding: 0.75rem;
+  }
+  
+  .completion-footer {
+    padding: 0.75rem;
+  }
+  
+  .continue-btn {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Animation for modal entrance */
+.quiz-completion-modal.show .modal-dialog {
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

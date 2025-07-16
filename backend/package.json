@@ -1,0 +1,37 @@
+{
+  "name": "grindx-backend",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "Backend for the GrindX application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d",
+    "create-super-admin": "node scripts/createSuperAdmin.js",
+    "create-default-tenant": "node scripts/createDefaultTenant.js",
+    "add-tenant-ids": "node scripts/addTenantIdToModels.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.3",
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.5.1",
+    "google-auth-library": "^9.15.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.1",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "nodemon": "^2.0.21"
+  }
+}

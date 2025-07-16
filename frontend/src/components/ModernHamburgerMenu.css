@@ -1,0 +1,186 @@
+/* Modern Hamburger Menu Styles */
+.modern-hamburger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 100; /* Increased for better overlay handling */
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation; /* Better touch behavior */
+  user-select: none; /* Prevent text selection */
+}
+
+/* Size variants */
+.hamburger-small {
+  width: 36px; /* Larger for better touch targets */
+  height: 36px;
+  min-width: 36px; /* Prevent squishing */
+  min-height: 36px;
+}
+
+.hamburger-medium {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.hamburger-large {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Hamburger container */
+.hamburger-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 24px;
+  height: 18px;
+}
+
+/* Hamburger lines - always visible and consistent */
+.hamburger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  border-radius: 1px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Slightly faster for snappier feel */
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* Theme colors */
+.modern-hamburger.light .hamburger-line {
+  background-color: #1e293b;
+}
+
+.modern-hamburger.dark .hamburger-line {
+  background-color: #ffffff;
+}
+
+/* Closed state - 3 visible lines */
+.modern-hamburger:not(.open) .line-top {
+  transform: translateY(0) rotate(0deg);
+  opacity: 1;
+}
+
+.modern-hamburger:not(.open) .line-middle {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.modern-hamburger:not(.open) .line-bottom {
+  transform: translateY(0) rotate(0deg);
+  opacity: 1;
+}
+
+/* Open state - X formation */
+.modern-hamburger.open .line-top {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.modern-hamburger.open .line-middle {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.modern-hamburger.open .line-bottom {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Focus states for accessibility */
+.modern-hamburger:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.modern-hamburger.dark:focus-visible {
+  outline-color: #818CF8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hamburger-medium {
+    width: 44px; /* Larger touch target on mobile */
+    height: 44px;
+    padding: 10px;
+  }
+  
+  .hamburger-container {
+    width: 24px;
+    height: 18px;
+  }
+  
+  .hamburger-line {
+    width: 24px;
+    height: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hamburger-medium {
+    width: 40px; /* Even larger on smallest screens */
+    height: 40px;
+    padding: 8px;
+  }
+  
+  .hamburger-small {
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+  }
+  
+  .hamburger-container {
+    width: 22px;
+    height: 16px;
+  }
+  
+  .hamburger-line {
+    width: 22px;
+    height: 2px;
+  }
+  
+  .modern-hamburger.open .line-top {
+    transform: translateY(7px) rotate(45deg);
+  }
+  
+  .modern-hamburger.open .line-bottom {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .modern-hamburger,
+  .hamburger-container,
+  .hamburger-line {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Added active state for better touch feedback */
+.modern-hamburger:active .hamburger-container {
+  transform: scale(0.95);
+}
+
+/* Prevent text selection on the button */
+.modern-hamburger * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

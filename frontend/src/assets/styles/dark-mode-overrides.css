@@ -1,0 +1,67 @@
+/* Dark mode overrides to ensure pure black backgrounds */
+[data-theme='dark'],
+[data-bs-theme='dark'] {
+  --background-color: #000000 !important;
+  --secondary-color: #000000 !important;
+  --card-bg: #000000 !important;
+  --input-bg: #000000 !important;
+  --toast-bg: #000000 !important;
+  --btn-hover-bg: #000000 !important;
+}
+
+/* Bootstrap overrides */
+[data-bs-theme='dark'] .bg-dark,
+[data-bs-theme='dark'] .modal-content,
+[data-bs-theme='dark'] .card,
+[data-bs-theme='dark'] .dropdown-menu,
+[data-bs-theme='dark'] .list-group-item,
+[data-bs-theme='dark'] .modal-header,
+[data-bs-theme='dark'] .modal-body,
+[data-bs-theme='dark'] .modal-footer,
+[data-bs-theme='dark'] .accordion-item,
+[data-bs-theme='dark'] .accordion-button {
+  background-color: #000000 !important;
+}
+
+/* Override any components that might be using a gray color */
+[data-theme='dark'] .container-fluid,
+[data-theme='dark'] .container,
+[data-theme='dark'] .row,
+[data-theme='dark'] .col,
+[data-theme='dark'] .card,
+[data-bs-theme='dark'] .container-fluid,
+[data-bs-theme='dark'] .container,
+[data-bs-theme='dark'] .row,
+[data-bs-theme='dark'] .col,
+[data-bs-theme='dark'] .card {
+  background-color: #000000 !important;
+}
+
+/* Ensure all semi-transparent backgrounds are solid */
+[data-theme='dark'] [class*="bg-"],
+[data-theme='dark'] [style*="background-color"],
+[data-theme='dark'] [style*="background:"],
+[data-bs-theme='dark'] [class*="bg-"],
+[data-bs-theme='dark'] [style*="background-color"],
+[data-bs-theme='dark'] [style*="background:"] {
+  background-color: #000000 !important;
+  background: #000000 !important;
+}
+
+/* Directly target bg-dark class */
+.bg-dark {
+  background-color: #000000 !important;
+}
+
+/* Specifically target container-fluid with bg-dark class */
+.container-fluid.bg-dark,
+div.container-fluid.bg-dark.text-light.min-vh-100.px-1 {
+  background-color: #000000 !important;
+}
+
+/* Extra rules to ensure proper overriding */
+[data-bs-theme='dark'] .bg-dark,
+html[data-bs-theme='dark'] .bg-dark,
+body[data-bs-theme='dark'] .bg-dark {
+  background-color: #000000 !important;
+}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-G PWA Installation Test</title>
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 4px solid;
+        }
+        .pass { 
+            background: #d4edda; 
+            color: #155724; 
+            border-color: #28a745; 
+        }
+        .fail { 
+            background: #f8d7da; 
+            color: #721c24; 
+            border-color: #dc3545; 
+        }
+        .warning { 
+            background: #fff3cd; 
+            color: #856404; 
+            border-color: #ffc107; 
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border-color: #17a2b8;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .btn:hover { background: #0056b3; }
+        .btn.install { background: #28a745; }
+        .btn.install:hover { background: #1e7e34; }
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .icon-item {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        .icon-item img {
+            width: 48px;
+            height: 48px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        .install-prompt {
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .install-prompt.hidden { display: none; }
+        .device-specific {
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .status-pass { background: #28a745; }
+        .status-fail { background: #dc3545; }
+        .status-warning { background: #ffc107; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Pro-G PWA Installation Test</h1>
+    <p>This page tests PWA installation readiness for both mobile and desktop platforms.</p>
+
+    <div class="install-prompt hidden" id="installPrompt">
+        <h3>📱 Ready to Install Pro-G!</h3>
+        <p>Install Pro-G as an app on your device for the best experience.</p>
+        <button class="btn install" onclick="installPWA()">Install App</button>
+        <button class="btn" onclick="dismissInstallPrompt()">Maybe Later</button>
+    </div>
+
+    <div class="test-card">
+        <h2>📋 PWA Requirements Check</h2>
+        <div id="requirementsTests"></div>
+        <button class="btn" onclick="runRequirementsTests()">Test PWA Requirements</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🖼️ Icon Verification</h2>
+        <div id="iconTests"></div>
+        <div id="iconGrid" class="icon-grid"></div>
+        <button class="btn" onclick="testAllIcons()">Test All Icons</button>
+    </div>
+
+    <div class="test-card">
+        <h2>📱 Installation Instructions</h2>
+        <div id="installInstructions"></div>
+        <button class="btn" onclick="showInstallInstructions()">Show Instructions</button>
+    </div>
+
+    <div class="test-card">
+        <h2>🔧 PWA Features Test</h2>
+        <div id="featuresTests"></div>
+        <button class="btn" onclick="testPWAFeatures()">Test PWA Features</button>
+    </div>
+
+    <script>
+        let deferredPrompt;
+        let installInstructionsShown = false;
+
+        // Test Results Helper
+        function addResult(containerId, message, type = 'pass') {
+            const container = document.getElementById(containerId);
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            
+            const indicator = document.createElement('span');
+            indicator.className = `status-indicator status-${type}`;
+            
+            div.appendChild(indicator);
+            div.appendChild(document.createTextNode(message));
+            container.appendChild(div);
+        }
+
+        function clearResults(containerId) {
+            document.getElementById(containerId).innerHTML = '';
+        }
+
+        // PWA Requirements Tests
+        async function runRequirementsTests() {
+            clearResults('requirementsTests');
+            
+            // Test HTTPS (or localhost)
+            if (location.protocol === 'https:' || location.hostname === 'localhost') {
+                addResult('requirementsTests', 'HTTPS requirement met');
+            } else {
+                addResult('requirementsTests', 'HTTPS required for PWA installation', 'fail');
+            }
+            
+            // Test manifest
+            try {
+                const manifestResponse = await fetch('/manifest.json');
+                if (manifestResponse.ok) {
+                    const manifest = await manifestResponse.json();
+                    addResult('requirementsTests', 'Manifest.json accessible');
+                    
+                    // Check required manifest fields
+                    const required = ['name', 'icons', 'start_url', 'display'];
+                    required.forEach(field => {
+                        if (manifest[field]) {
+                            addResult('requirementsTests', `Manifest has required field: ${field}`);
+                        } else {
+                            addResult('requirementsTests', `Missing required field: ${field}`, 'fail');
+                        }
+                    });
+                    
+                    // Check icon requirements
+                    const largeIcons = manifest.icons.filter(icon => {
+                        const sizes = icon.sizes.split(' ');
+                        return sizes.some(size => {
+                            const [width] = size.split('x').map(Number);
+                            return width >= 192;
+                        });
+                    });
+                    
+                    if (largeIcons.length > 0) {
+                        addResult('requirementsTests', `Found ${largeIcons.length} large icons (≥192px)`);
+                    } else {
+                        addResult('requirementsTests', 'Need at least one icon ≥192px', 'warning');
+                    }
+                    
+                } else {
+                    addResult('requirementsTests', 'Manifest.json not accessible', 'fail');
+                }
+            } catch (error) {
+                addResult('requirementsTests', `Manifest error: ${error.message}`, 'fail');
+            }
+            
+            // Test service worker
+            if ('serviceWorker' in navigator) {
+                addResult('requirementsTests', 'Service Worker API supported');
+                
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        addResult('requirementsTests', 'Service Worker registered');
+                        if (registration.active) {
+                            addResult('requirementsTests', 'Service Worker active');
+                        }
+                    } else {
+                        addResult('requirementsTests', 'Service Worker not registered', 'warning');
+                    }
+                } catch (error) {
+                    addResult('requirementsTests', `Service Worker error: ${error.message}`, 'fail');
+                }
+            } else {
+                addResult('requirementsTests', 'Service Worker not supported', 'fail');
+            }
+            
+            // Test install prompt support
+            if ('onbeforeinstallprompt' in window) {
+                addResult('requirementsTests', 'Install prompt supported');
+            } else {
+                addResult('requirementsTests', 'Install prompt may not be supported', 'warning');
+            }
+        }
+
+        // Icon Tests
+        async function testAllIcons() {
+            clearResults('iconTests');
+            
+            try {
+                const manifestResponse = await fetch('/manifest.json');
+                const manifest = await manifestResponse.json();
+                
+                const iconGrid = document.getElementById('iconGrid');
+                iconGrid.innerHTML = '';
+                
+                let passedIcons = 0;
+                let totalIcons = manifest.icons.length;
+                
+                for (const icon of manifest.icons) {
+                    try {
+                        const iconResponse = await fetch(icon.src);
+                        if (iconResponse.ok) {
+                            addResult('iconTests', `✓ ${icon.src} (${icon.sizes}) accessible`);
+                            
+                            // Add to visual grid
+                            const iconItem = document.createElement('div');
+                            iconItem.className = 'icon-item';
+                            iconItem.innerHTML = `
+                                <img src="${icon.src}" alt="${icon.src}" onerror="this.style.opacity=0.3">
+                                <div style="font-size: 12px; margin-top: 5px;">${icon.sizes}</div>
+                                <div style="font-size: 10px; color: #666;">${icon.src}</div>
+                            `;
+                            iconGrid.appendChild(iconItem);
+                            passedIcons++;
+                        } else {
+                            addResult('iconTests', `✗ ${icon.src} not accessible`, 'fail');
+                        }
+                    } catch (error) {
+                        addResult('iconTests', `✗ Error testing ${icon.src}: ${error.message}`, 'fail');
+                    }
+                }
+                
+                addResult('iconTests', `Icon accessibility: ${passedIcons}/${totalIcons} passed`, 
+                         passedIcons === totalIcons ? 'pass' : 'warning');
+                
+            } catch (error) {
+                addResult('iconTests', `Error testing icons: ${error.message}`, 'fail');
+            }
+        }
+
+        // Installation Instructions
+        function showInstallInstructions() {
+            if (installInstructionsShown) return;
+            
+            const container = document.getElementById('installInstructions');
+            const userAgent = navigator.userAgent.toLowerCase();
+            
+            let instructions = '';
+            
+            if (userAgent.includes('chrome') && !userAgent.includes('edge')) {
+                instructions = `
+                    <div class="device-specific">
+                        <h4>🖥️ Chrome Desktop</h4>
+                        <ol>
+                            <li>Look for the install button (⊕) in the address bar</li>
+                            <li>Or click the three-dot menu → "Install Pro-G"</li>
+                            <li>Click "Install" in the popup dialog</li>
+                        </ol>
+                    </div>
+                    <div class="device-specific">
+                        <h4>📱 Chrome Mobile</h4>
+                        <ol>
+                            <li>Tap the three-dot menu</li>
+                            <li>Select "Add to Home screen"</li>
+                            <li>Confirm by tapping "Add"</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (userAgent.includes('firefox')) {
+                instructions = `
+                    <div class="device-specific">
+                        <h4>🦊 Firefox</h4>
+                        <ol>
+                            <li>PWA support may require enabling in about:config</li>
+                            <li>Set dom.webnotifications.serviceworker.enabled to true</li>
+                            <li>Look for install option in address bar</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (userAgent.includes('safari')) {
+                instructions = `
+                    <div class="device-specific">
+                        <h4>🧭 Safari (iOS)</h4>
+                        <ol>
+                            <li>Tap the Share button (square with arrow)</li>
+                            <li>Scroll down and tap "Add to Home Screen"</li>
+                            <li>Customize the name if needed</li>
+                            <li>Tap "Add" to confirm</li>
+                        </ol>
+                    </div>
+                `;
+            } else if (userAgent.includes('edge')) {
+                instructions = `
+                    <div class="device-specific">
+                        <h4>🌐 Microsoft Edge</h4>
+                        <ol>
+                            <li>Look for the install button (⊕) in the address bar</li>
+                            <li>Or click the three-dot menu → "Apps" → "Install this site as an app"</li>
+                            <li>Click "Install" in the dialog</li>
+                        </ol>
+                    </div>
+                `;
+            }
+            
+            if (!instructions) {
+                instructions = `
+                    <div class="device-specific">
+                        <h4>📱 General Instructions</h4>
+                        <p>Look for browser-specific install options in:</p>
+                        <ul>
+                            <li>Address bar install button</li>
+                            <li>Browser menu → Install app/Add to home screen</li>
+                            <li>Share menu (mobile)</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = instructions;
+            installInstructionsShown = true;
+        }
+
+        // PWA Features Test
+        async function testPWAFeatures() {
+            clearResults('featuresTests');
+            
+            // Test if running as installed PWA
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isIOSStandalone = window.navigator.standalone === true;
+            
+            if (isStandalone || isIOSStandalone) {
+                addResult('featuresTests', '🎉 Running as installed PWA!');
+            } else {
+                addResult('featuresTests', '📱 Running in browser mode', 'info');
+            }
+            
+            // Test offline capability
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration && registration.active) {
+                        addResult('featuresTests', '✓ Offline capability available');
+                    } else {
+                        addResult('featuresTests', '⚠ Offline capability pending', 'warning');
+                    }
+                } catch (error) {
+                    addResult('featuresTests', '✗ Offline capability unavailable', 'fail');
+                }
+            }
+            
+            // Test notification support
+            if ('Notification' in window) {
+                addResult('featuresTests', '✓ Push notifications supported');
+            } else {
+                addResult('featuresTests', '✗ Push notifications not supported', 'warning');
+            }
+            
+            // Test background sync support
+            if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                addResult('featuresTests', '✓ Background sync supported');
+            } else {
+                addResult('featuresTests', '✗ Background sync not supported', 'warning');
+            }
+        }
+
+        // Install PWA
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        addResult('featuresTests', '✅ App installed successfully!');
+                    } else {
+                        addResult('featuresTests', '❌ Installation cancelled');
+                    }
+                    deferredPrompt = null;
+                    document.getElementById('installPrompt').classList.add('hidden');
+                });
+            } else {
+                alert('Install prompt not available. Try using your browser\'s install option.');
+            }
+        }
+
+        function dismissInstallPrompt() {
+            document.getElementById('installPrompt').classList.add('hidden');
+        }
+
+        // Event Listeners
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').classList.remove('hidden');
+            addResult('featuresTests', '✅ Install prompt ready!');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            addResult('featuresTests', '🎉 App installed successfully!');
+            document.getElementById('installPrompt').classList.add('hidden');
+        });
+
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                runRequirementsTests();
+                testAllIcons();
+                testPWAFeatures();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

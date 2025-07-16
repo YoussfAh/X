@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Test - Pro-G</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            height: 200vh; /* Make page scrollable for testing */
+            background: linear-gradient(45deg, #f8fafc, #e2e8f0);
+        }
+        
+        .test-content {
+            padding: 2rem;
+            margin-top: 100px;
+        }
+        
+        .test-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .test-instructions {
+            background: #e0f2fe;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #0284c7;
+        }
+        
+        h1, h2 {
+            color: #1e293b;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .checklist li:before {
+            content: "✅ ";
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-content">
+        <div class="test-instructions">
+            <h2>Header Improvement Test Guide</h2>
+            <p>This page helps you test the new header features. Scroll up and down to test the header behavior.</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>Header Features to Test</h2>
+            <ul class="checklist">
+                <li>Header has transparent/glass background with blur effect</li>
+                <li>No border line under the header</li>
+                <li>Header is fixed at the top of the page</li>
+                <li>Header hides when scrolling down (past 100px)</li>
+                <li>Header shows when scrolling up</li>
+                <li>Header always visible when at the top of the page</li>
+                <li>Hamburger menu has no border</li>
+                <li>Header text is properly sized and positioned</li>
+                <li>Header works well in both light and dark themes</li>
+                <li>Dropdown menu appears below header without issues</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>Scroll Test Area 1</h2>
+            <p>Scroll down to see the header hide. Then scroll back up to see it reappear.</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>Scroll Test Area 2</h2>
+            <p>The header should smoothly transition in and out of view.</p>
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>Theme Test</h2>
+            <p>Toggle between light and dark themes to ensure the header adapts properly:</p>
+            <ul>
+                <li><strong>Light theme:</strong> Header should have white/light transparent background</li>
+                <li><strong>Dark theme:</strong> Header should have dark/black transparent background</li>
+                <li>Hamburger menu lines should be dark in light theme, light in dark theme</li>
+                <li>Brand text should be styled appropriately for each theme</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>Mobile Test</h2>
+            <p>Test the header on different screen sizes:</p>
+            <ul>
+                <li>Desktop (> 768px)</li>
+                <li>Tablet (768px - 480px)</li>
+                <li>Mobile (< 480px)</li>
+            </ul>
+            <p>Ensure the header height and spacing adjust appropriately for each breakpoint.</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>Additional Content</h2>
+            <p>This section provides more content to test scrolling behavior. The header should hide when you scroll down past this content and show when you scroll back up.</p>
+            <p>Pay attention to the smooth animation and ensure there are no glitches or jarring movements.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Add some scroll tracking for testing
+        let lastScrollTop = 0;
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDirection = scrollTop > lastScrollTop ? 'down' : 'up';
+            
+            console.log(`Scroll ${scrollDirection}: ${scrollTop}px`);
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+        });
+        
+        // Theme toggle for testing
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+        }
+        
+        // Add theme toggle button
+        const themeButton = document.createElement('button');
+        themeButton.textContent = '🌓 Toggle Theme';
+        themeButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            background: #4F46E5;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1000;
+        `;
+        themeButton.onclick = toggleTheme;
+        document.body.appendChild(themeButton);
+    </script>
+</body>
+</html>

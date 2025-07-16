@@ -1,0 +1,287 @@
+.quiz-management-card {
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .quiz-management-card {
+  background-color: #0a0a0a;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+.quiz-preview {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(99, 102, 241, 0.05) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="dark"] .quiz-preview {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.quiz-text-input {
+  min-height: 100px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.quiz-text-input:focus {
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  outline: none;
+}
+
+[data-theme="dark"] .quiz-text-input {
+  background-color: #121212;
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .quiz-text-input:focus {
+  border-color: #8B5CF6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+/* Quiz option buttons styling */
+.quiz-option {
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.quiz-option:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-outline-primary.quiz-option {
+  border-color: #e2e8f0;
+  background-color: transparent;
+  color: #334155;
+}
+
+.btn-primary.quiz-option {
+  background-color: #8B5CF6;
+  border-color: #8B5CF6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+[data-theme="dark"] .btn-outline-primary.quiz-option {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .btn-outline-primary.quiz-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Accordion styling for quiz management */
+.accordion-item {
+  border-radius: 8px !important;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .accordion-item {
+  background-color: #121212;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.accordion-header button {
+  border-radius: 8px !important;
+  font-weight: 600;
+  padding: 1rem 1.25rem;
+}
+
+[data-theme="dark"] .accordion-header button {
+  background-color: #1a1a1a;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .accordion-header button:not(.collapsed) {
+  background-color: #8B5CF6;
+  color: white;
+}
+
+.accordion-body {
+  padding: 1.5rem;
+}
+
+[data-theme="dark"] .accordion-body {
+  background-color: #0a0a0a;
+  color: #e2e8f0;
+}
+
+/* Badge styling improvements */
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+}
+
+/* Table responsive improvements */
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid rgba(139, 92, 246, 0.2);
+}
+
+[data-theme="dark"] .table {
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .table th {
+  border-color: rgba(139, 92, 246, 0.3);
+  background-color: #1a1a1a;
+}
+
+[data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > td {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Modal improvements */
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .modal-content {
+  background-color: #1a1a1a;
+  color: #e2e8f0;
+}
+
+.modal-header {
+  border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+  padding: 1.5rem;
+}
+
+[data-theme="dark"] .modal-header {
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #8B5CF6;
+}
+
+[data-theme="dark"] .modal-title {
+  color: #a78bfa;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 8px;
+  border: none;
+  padding: 1rem 1.25rem;
+}
+
+.alert-info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+  border-left: 4px solid #3b82f6;
+  color: #1e40af;
+}
+
+[data-theme="dark"] .alert-info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(99, 102, 241, 0.2) 100%);
+  color: #93c5fd;
+}
+
+/* List group improvements */
+.list-group-item {
+  border-radius: 6px !important;
+  margin-bottom: 0.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .list-group-item {
+  background-color: #121212;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  color: #e2e8f0;
+}
+
+.list-group-flush .list-group-item {
+  border-width: 0 0 1px 0 !important;
+  border-radius: 0 !important;
+  margin-bottom: 0;
+}
+
+/* Button improvements */
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+}
+
+.btn-outline-primary {
+  border-color: #8B5CF6;
+  color: #8B5CF6;
+}
+
+.btn-outline-primary:hover {
+  background-color: #8B5CF6;
+  border-color: #8B5CF6;
+}
+
+/* Loading states */
+.spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .quiz-management-card .card-header {
+    padding: 1rem;
+  }
+  
+  .quiz-management-card .card-body {
+    padding: 1rem;
+  }
+  
+  .accordion-body {
+    padding: 1rem;
+  }
+  
+  .modal-dialog {
+    margin: 0.5rem;
+  }
+  
+  .quiz-option {
+    padding: 12px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,27 @@
+/* Custom styles for breadcrumb items */
+.breadcrumb {
+  margin-bottom: 0;
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  line-height: 1.5;
+}
+
+.breadcrumb-item a {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.breadcrumb-item.active {
+  display: flex;
+  align-items: center;
+}

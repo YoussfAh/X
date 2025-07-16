@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Carousel & Caching Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .pass { color: green; }
+        .fail { color: red; }
+        .info { color: blue; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hero Carousel & Caching Verification Test</h1>
+    
+    <div class="test-section">
+        <h2>Service Worker Status</h2>
+        <p id="sw-status">Checking...</p>
+        <button onclick="checkServiceWorker()">Check Service Worker</button>
+        <button onclick="clearCaches()">Clear All Caches</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Hero Image Cache Test</h2>
+        <p>Test hero image loading and caching performance</p>
+        <button onclick="testHeroImageCache()">Test Hero Image Cache</button>
+        <button onclick="preloadHeroImages()">Preload Hero Images</button>
+    </div>
+
+    <div class="test-section">
+        <h2>API Cache Test</h2>
+        <p>Test hero images API caching</p>
+        <button onclick="testApiCache()">Test API Cache</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Infinite Reload Check</h2>
+        <p>Monitor for reload loops</p>
+        <button onclick="monitorReloads()">Monitor Page Reloads</button>
+        <p id="reload-count">Page loads: <span id="load-counter">1</span></p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let results = [];
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}`;
+            results.push(logMessage);
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.textContent = results.join('\n');
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+            
+            console.log(logMessage);
+        }
+
+        // Check Service Worker registration
+        async function checkServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                try {
+                    const registration = await navigator.serviceWorker.getRegistration();
+                    if (registration) {
+                        document.getElementById('sw-status').innerHTML = 
+                            `<span class="pass">✓ Service Worker registered</span><br>
+                             Active: ${registration.active ? 'Yes' : 'No'}<br>
+                             Scope: ${registration.scope}`;
+                        log('Service Worker is registered and active', 'pass');
+                        
+                        // Test communication
+                        if (navigator.serviceWorker.controller) {
+                            navigator.serviceWorker.controller.postMessage({type: 'PING'});
+                            log('Sent ping to Service Worker');
+                        }
+                    } else {
+                        document.getElementById('sw-status').innerHTML = 
+                            '<span class="fail">✗ Service Worker not registered</span>';
+                        log('Service Worker is not registered', 'fail');
+                    }
+                } catch (error) {
+                    document.getElementById('sw-status').innerHTML = 
+                        `<span class="fail">✗ Error: ${error.message}</span>`;
+                    log(`Service Worker check failed: ${error.message}`, 'fail');
+                }
+            } else {
+                document.getElementById('sw-status').innerHTML = 
+                    '<span class="fail">✗ Service Worker not supported</span>';
+                log('Service Worker not supported in this browser', 'fail');
+            }
+        }
+
+        // Test hero image caching
+        async function testHeroImageCache() {
+            try {
+                log('Testing hero image cache...');
+                
+                // Test image URLs (you can modify these based on your actual images)
+                const testImages = [
+                    '/uploads/hero-images/test1.jpg',
+                    '/uploads/hero-images/test2.jpg'
+                ];
+                
+                for (const imageUrl of testImages) {
+                    const startTime = performance.now();
+                    
+                    try {
+                        const response = await fetch(imageUrl);
+                        const endTime = performance.now();
+                        const loadTime = endTime - startTime;
+                        
+                        if (response.ok) {
+                            log(`Image loaded: ${imageUrl} (${loadTime.toFixed(2)}ms)`, 'pass');
+                        } else {
+                            log(`Image failed: ${imageUrl} (${response.status})`, 'fail');
+                        }
+                    } catch (error) {
+                        log(`Image error: ${imageUrl} - ${error.message}`, 'fail');
+                    }
+                }
+            } catch (error) {
+                log(`Hero image cache test failed: ${error.message}`, 'fail');
+            }
+        }
+
+        // Test API caching
+        async function testApiCache() {
+            try {
+                log('Testing API cache...');
+                
+                const startTime = performance.now();
+                const response = await fetch('/api/system/hero-images');
+                const endTime = performance.now();
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`API response received (${(endTime - startTime).toFixed(2)}ms)`, 'pass');
+                    log(`Hero images count: ${data.heroImages ? data.heroImages.length : 0}`);
+                } else {
+                    log(`API request failed: ${response.status}`, 'fail');
+                }
+            } catch (error) {
+                log(`API cache test failed: ${error.message}`, 'fail');
+            }
+        }
+
+        // Preload hero images
+        async function preloadHeroImages() {
+            if (navigator.serviceWorker.controller) {
+                try {
+                    log('Requesting hero image preload...');
+                    navigator.serviceWorker.controller.postMessage({type: 'PRELOAD_HERO_IMAGES'});
+                    log('Preload request sent to Service Worker', 'pass');
+                } catch (error) {
+                    log(`Preload failed: ${error.message}`, 'fail');
+                }
+            } else {
+                log('No active Service Worker for preload', 'fail');
+            }
+        }
+
+        // Clear all caches
+        async function clearCaches() {
+            if (navigator.serviceWorker.controller) {
+                try {
+                    log('Clearing all caches...');
+                    navigator.serviceWorker.controller.postMessage({type: 'CLEAR_ALL_CACHES'});
+                    log('Cache clear request sent', 'pass');
+                } catch (error) {
+                    log(`Cache clear failed: ${error.message}`, 'fail');
+                }
+            } else {
+                log('No active Service Worker for cache clear', 'fail');
+            }
+        }
+
+        // Monitor for infinite reloads
+        function monitorReloads() {
+            // Track page loads in sessionStorage
+            let loadCount = parseInt(sessionStorage.getItem('loadCount') || '0') + 1;
+            sessionStorage.setItem('loadCount', loadCount.toString());
+            
+            document.getElementById('load-counter').textContent = loadCount;
+            
+            if (loadCount > 3) {
+                log(`WARNING: High reload count detected (${loadCount})`, 'fail');
+            } else {
+                log(`Page load count: ${loadCount}`, 'pass');
+            }
+
+            // Monitor for rapid reloads
+            const lastLoad = parseInt(sessionStorage.getItem('lastLoadTime') || '0');
+            const currentTime = Date.now();
+            sessionStorage.setItem('lastLoadTime', currentTime.toString());
+            
+            if (lastLoad && (currentTime - lastLoad) < 1000) {
+                log('WARNING: Rapid reload detected (<1s since last load)', 'fail');
+            }
+        }
+
+        // Listen for Service Worker messages
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', event => {
+                const { type, data } = event.data || {};
+                log(`SW Message: ${type} - ${JSON.stringify(data)}`);
+            });
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            log('Test page loaded');
+            checkServiceWorker();
+            monitorReloads();
+        });
+    </script>
+</body>
+</html>

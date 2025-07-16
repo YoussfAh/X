@@ -1,0 +1,90 @@
+/* Header Spacing Fix - Ensure consistent 70px spacing on all screen sizes */
+
+/* Reset any conflicting root padding */
+#root {
+  padding-top: 0 !important;
+}
+
+/* Reset any Bootstrap utility classes that might add padding */
+.pt-*, .py-* {
+  padding-top: initial;
+}
+
+/* Ensure main element has exactly 70px padding on all screens */
+main {
+  padding-top: 70px !important;
+  margin-top: 0 !important;
+  box-sizing: border-box;
+}
+
+/* Mobile devices - prevent double spacing */
+@media (max-width: 768px) {
+  #root {
+    padding-top: 0 !important;
+  }
+  
+  main {
+    padding-top: 70px !important;
+  }
+  
+  /* Prevent any mobile-specific Bootstrap classes from adding extra padding */
+  body, html {
+    padding-top: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #root {
+    padding-top: 0 !important;
+  }
+  
+  main {
+    padding-top: 70px !important;
+  }
+  
+  body, html {
+    padding-top: 0 !important;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 320px) {
+  #root {
+    padding-top: 0 !important;
+  }
+  
+  main {
+    padding-top: 70px !important;
+  }
+  
+  body, html {
+    padding-top: 0 !important;
+  }
+}
+
+/* Desktop screens - ensure consistency */
+@media (min-width: 769px) {
+  #root {
+    padding-top: 0 !important;
+  }
+  
+  main {
+    padding-top: 70px !important;
+  }
+}
+
+/* Force specificity for any potential conflicts */
+html body #root {
+  padding-top: 0 !important;
+}
+
+html body #root main,
+html body div main {
+  padding-top: 70px !important;
+  margin-top: 0 !important;
+}
+
+/* Override any inline styles or computed styles */
+main[style*="padding-top"] {
+  padding-top: 70px !important;
+}

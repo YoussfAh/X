@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Install Prompt Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .device-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .desktop-info {
+            background: #ffe8e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .mobile-info {
+            background: #e8f0ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        button {
+            background: #9966FF;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #7a4dd1;
+        }
+        .install-prompt {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background: #9966FF;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(153, 102, 255, 0.25);
+            z-index: 1050;
+            max-width: 400px;
+            margin: 0 auto;
+            display: none;
+        }
+        .install-prompt.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>PWA Install Prompt Test</h1>
+        
+        <div class="device-info">
+            <h3>Device Detection Results:</h3>
+            <div id="deviceInfo"></div>
+        </div>
+        
+        <div class="mobile-info">
+            <h3>Mobile Device Behavior:</h3>
+            <p>✅ PWA install prompt will be shown</p>
+            <p>✅ Installation options available</p>
+        </div>
+        
+        <div class="desktop-info">
+            <h3>Desktop Device Behavior:</h3>
+            <p>❌ PWA install prompt will be hidden</p>
+            <p>❌ No installation popup will appear</p>
+        </div>
+        
+        <button onclick="testMobileDetection()">Test Mobile Detection</button>
+        <button onclick="simulateInstallPrompt()">Simulate Install Prompt</button>
+        <button onclick="clearTest()">Clear Test</button>
+    </div>
+
+    <div class="install-prompt" id="installPrompt">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span>📱</span>
+            <div style="flex: 1;">
+                <div style="font-weight: 600; margin-bottom: 2px;">Install GRINDX</div>
+                <div style="font-size: 0.8rem; opacity: 0.9;">Get full app experience & offline access</div>
+            </div>
+            <button onclick="hideInstallPrompt()" style="background: white; color: #9966FF; padding: 4px 8px; font-size: 0.8rem;">×</button>
+        </div>
+    </div>
+
+    <script>
+        // Device detection function (same as in the React component)
+        function isMobileDevice() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            
+            // Check for mobile devices
+            const mobileRegex = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i;
+            
+            // Check screen size as additional criteria
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const isSmallScreen = screenWidth <= 768 || screenHeight <= 768;
+            
+            // Check for touch capability
+            const hasTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            return mobileRegex.test(userAgent) || (isSmallScreen && hasTouchScreen);
+        }
+
+        function testMobileDetection() {
+            const deviceInfo = document.getElementById('deviceInfo');
+            const isMobile = isMobileDevice();
+            
+            deviceInfo.innerHTML = `
+                <strong>User Agent:</strong> ${navigator.userAgent}<br>
+                <strong>Screen Size:</strong> ${window.innerWidth} x ${window.innerHeight}<br>
+                <strong>Touch Screen:</strong> ${'ontouchstart' in window || navigator.maxTouchPoints > 0}<br>
+                <strong>Max Touch Points:</strong> ${navigator.maxTouchPoints || 0}<br>
+                <strong>Device Type:</strong> ${isMobile ? 'Mobile' : 'Desktop'}<br>
+                <strong>PWA Install Prompt:</strong> ${isMobile ? 'Enabled' : 'Disabled'}
+            `;
+            
+            // Change background color based on detection
+            if (isMobile) {
+                deviceInfo.parentElement.className = 'mobile-info';
+            } else {
+                deviceInfo.parentElement.className = 'desktop-info';
+            }
+        }
+
+        function simulateInstallPrompt() {
+            const isMobile = isMobileDevice();
+            const installPrompt = document.getElementById('installPrompt');
+            
+            if (isMobile) {
+                installPrompt.classList.add('show');
+                console.log('Mobile device detected - showing install prompt');
+            } else {
+                alert('Desktop device detected - install prompt is disabled');
+                console.log('Desktop device detected - install prompt disabled');
+            }
+        }
+
+        function hideInstallPrompt() {
+            const installPrompt = document.getElementById('installPrompt');
+            installPrompt.classList.remove('show');
+        }
+
+        function clearTest() {
+            const deviceInfo = document.getElementById('deviceInfo');
+            deviceInfo.innerHTML = '';
+            hideInstallPrompt();
+        }
+
+        // Auto-run detection on page load
+        window.addEventListener('load', testMobileDetection);
+        
+        // Re-run detection on window resize
+        window.addEventListener('resize', testMobileDetection);
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* Mobile-optimized crop modal styles */
+.mobile-crop-modal .modal-dialog {
+  margin: 10px;
+  max-width: calc(100vw - 20px);
+}
+
+@media (max-width: 768px) {
+  .mobile-crop-modal .modal-dialog {
+    margin: 5px;
+    max-width: calc(100vw - 10px);
+    height: calc(100vh - 10px);
+  }
+
+  .mobile-crop-modal .modal-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bs-modal-bg, #fff);
+  }
+
+  .mobile-crop-modal .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px !important;
+    background-color: inherit;
+  }
+
+  .mobile-crop-modal .modal-header {
+    padding: 10px 12px !important;
+    min-height: auto;
+    background-color: inherit;
+  }
+
+  .mobile-crop-modal .modal-title {
+    font-size: 1rem !important;
+  }
+
+  /* Fix image display issues */
+  .mobile-crop-modal img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Ensure ReactCrop container doesn't overflow */
+  .mobile-crop-modal .ReactCrop {
+    max-width: 100% !important;
+    max-height: 50vh !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-crop-modal .modal-dialog {
+    margin: 2px;
+    max-width: calc(100vw - 4px);
+    height: calc(100vh - 4px);
+  }
+
+  .mobile-crop-modal .modal-body {
+    padding: 8px !important;
+  }
+
+  .mobile-crop-modal .modal-header {
+    padding: 8px 10px !important;
+  }
+
+  /* Smaller crop area on very small screens */
+  .mobile-crop-modal .ReactCrop {
+    max-height: 40vh !important;
+  }
+}
+
+/* Ensure ReactCrop touch-friendly on mobile */
+@media (max-width: 768px) {
+  .ReactCrop__crop-selection {
+    touch-action: none;
+  }
+
+  .ReactCrop__drag-handle {
+    width: 14px;
+    height: 14px;
+    background-color: #007bff;
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+
+  /* Make crop handles more visible on mobile */
+  .ReactCrop__drag-handle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: white;
+    border-radius: 50%;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mobile-crop-modal .modal-content {
+    background-color: #222222;
+    color: #ffffff;
+  }
+
+  .mobile-crop-modal .modal-header,
+  .mobile-crop-modal .modal-body {
+    background-color: #222222;
+    border-color: #444444;
+  }
+}
